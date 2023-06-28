@@ -27,6 +27,7 @@ export default function GtpAnswer({ A, concept, model }: Props) {
     const { loggedOut } = useUser();
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedGroup, setSelectedGroup] = useState<any | undefined>();
+    const [selectedTag, setSelectedTag] = useState<any>(null);
 
     const { groups, mutate, loading } = useGroup();
     const { tags } = useTag(selectedGroup ? selectedGroup?.group?.id : 0);
@@ -45,7 +46,7 @@ export default function GtpAnswer({ A, concept, model }: Props) {
         if (selectedGroup) {
             toast
                 .promise(
-                    addPost({ title: data.title, contents: htmlValue, group_id: String(selectedGroup.group.id), tag_id: null }).catch(
+                    addPost({ title: data.title, contents: htmlValue, group_id: String(selectedGroup.group.id), tag_id: selectedTag }).catch(
                         (err) => {
                             console.log(err);
                         }
@@ -113,13 +114,25 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                                         ? "bg-yellow-400 hover:bg-yellow-500"
                                                         : "bg-neutral-200 hover:bg-neutral-300"
                                                 } text-yellow-950 p-1 rounded-md text-sm cursor-pointer`}
-                                                onClick={() => setSelectedGroup(data)}
+                                                onClick={() => {
+                                                    setSelectedGroup(data)
+                                                    setSelectedTag(null)
+                                                }}
                                                 key={data.id}
                                             >
                                                 {data.group.name}
                                             </div>
                                         )
                                 )}
+                        </div>
+                        <div className="flex gap-2 mb-2">
+                            {selectedGroup && tags && <> <div onClick={() => {setSelectedTag(null)}} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
+                                ${selectedTag == null ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}>
+                                not choice</div> {tags.map((data: any) => 
+                                <div onClick={() => {setSelectedTag(data.id)}} key={data.id} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
+                                ${selectedTag == data.id ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}>
+                                    {data.name}
+                                </div>)}</>}
                         </div>
                         <CustomInput labelName="제목 입력" register={register} label="title" />
                         <HtmlEditor
