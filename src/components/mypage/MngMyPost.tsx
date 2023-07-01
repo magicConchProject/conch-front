@@ -117,7 +117,7 @@ export function MngMyPostCard(data: any, nowGroup: number) {
     const submit: SubmitHandler<any> = (submitdata) => {
         toast
             .promise(
-                editPost(postDetail.id, submitdata.title, htmlValue).catch((err) => {
+                editPost(postDetail.id, submitdata.title, htmlValue, null).catch((err) => {
                     throw new Error(err);
                 }),
                 {

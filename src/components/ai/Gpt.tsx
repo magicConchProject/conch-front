@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import Question from "./Question";
 import GtpAnswer from "./GptAnswer";
 import BottomSearchBox from "./BottomSearchBox";
-import { OpenAiAsk } from "@/api/ai";
 import Modal from "../common/Modal";
 import { toast } from "react-hot-toast";
 import io from "socket.io-client";
