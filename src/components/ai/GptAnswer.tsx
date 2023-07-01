@@ -32,8 +32,6 @@ export default function GtpAnswer({ A, concept, model }: Props) {
     const { groups, mutate, loading } = useGroup();
     const { tags } = useTag(selectedGroup ? selectedGroup?.group?.id : 0);
 
-    console.log(tags);
-
     const [title, setTitle] = useState("");
 
     const { register, handleSubmit } = useForm();
@@ -75,12 +73,12 @@ export default function GtpAnswer({ A, concept, model }: Props) {
         <>
             <div className="flex">
                 {A.A === "loading" ? (
-                    <div className={`flex bg-neutral-50 p-3 px-3 max-w-[800px] rounded-md ml-3 relative ${before}`}>
+                    <div className={`flex bg-white p-3 px-3 max-w-[800px] rounded-md ml-3 relative ${before}`}>
                         <PulseLoader color="#b9b9b9" size={7} speedMultiplier={0.5} />
                     </div>
                 ) : (
                     <div
-                        className={`flex bg-neutral-50 p-2 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-md ml-3 relative ${before} flex-col`}
+                        className={`flex bg-white p-2 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-md ml-3 relative ${before} flex-col`}
                     >
                         <section className="border-b pb-2">
                             <MarkdownViewer data={A.A} />
@@ -127,10 +125,10 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                         </div>
                         <div className="flex gap-2 mb-2">
                             {selectedGroup && tags && <> <div onClick={() => {setSelectedTag(null)}} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                ${selectedTag == null ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}>
+                                ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}>
                                 not choice</div> {tags.map((data: any) => 
                                 <div onClick={() => {setSelectedTag(data.id)}} key={data.id} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                ${selectedTag == data.id ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}>
+                                ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}>
                                     {data.name}
                                 </div>)}</>}
                         </div>

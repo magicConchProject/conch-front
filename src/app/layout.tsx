@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <MyToaster />
                     {/* 로그인, 회원가입 화면에서는 헤더 필요 없음 */}
                     <NavbarContainer>
-                        <header className="sticky top-0 bg-neutral-100 z-10 border-b">
+                        <header className="sticky top-0 bg-white z-10 border-b">
                             <Navbar />
                         </header>
                     </NavbarContainer>

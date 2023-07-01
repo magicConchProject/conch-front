@@ -59,12 +59,12 @@ export default function Answer({ A }: Props) {
         <>
             <div className="flex">
                 {A === "loading" ? (
-                    <div className={`flex bg-neutral-50 p-3 px-3 max-w-[800px] rounded-md ml-3 relative ${before}`}>
+                    <div className={`flex bg-white p-3 px-3 max-w-[800px] rounded-md ml-3 relative ${before}`}>
                         <PulseLoader color="#b9b9b9" size={7} speedMultiplier={0.5} />
                     </div>
                 ) : (
                     <div
-                        className={`flex bg-neutral-50 p-2 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-md ml-3 relative ${before} flex-col`}
+                        className={`flex bg-white p-2 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-md ml-3 relative ${before} flex-col`}
                     >
                         <section className="border-b pb-2">
                             <MarkdownViewer data={A.response} />
@@ -146,4 +146,4 @@ export default function Answer({ A }: Props) {
     );
 }
 
-const before = `before:border-[6px] before:border-transparent before:border-t-neutral-50 before:border-r-neutral-50 before:w-0 before:absolute before:top-1.5 before:left-[-10px]`;
+const before = `before:border-[6px] before:border-transparent before:border-t-white before:border-r-white before:w-0 before:absolute before:top-1.5 before:left-[-10px]`;

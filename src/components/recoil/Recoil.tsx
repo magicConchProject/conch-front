@@ -28,7 +28,7 @@ export const gptImage = atom<Array<any>>({
 //사비드 바 답변 상태 저장
 export const sideNavState = atom<string>({
     key: "sideNavState",
-    default: "bard",
+    default: "",
 });
 
 

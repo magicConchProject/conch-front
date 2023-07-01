@@ -58,7 +58,7 @@ export default function PostAdd() {
                                         <div
                                             onClick={() => setNowTag(null)}
                                             className={`text-sm p-1 px-2 rounded-lg ${
-                                                nowTag == null ? "bg-neutral-600 text-neutral-50" : "bg-neutral-100"
+                                                nowTag == null ? "bg-neutral-600 text-white" : "bg-neutral-100"
                                             }`}
                                         >
                                             ALL
@@ -68,7 +68,7 @@ export default function PostAdd() {
                                                 <div
                                                     onClick={() => setNowTag(data.id)}
                                                     className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                                    ${nowTag == data.id ? "bg-neutral-600 text-neutral-50" : "bg-neutral-100"}`}
+                                                    ${nowTag == data.id ? "bg-neutral-600 text-white" : "bg-neutral-100"}`}
                                                     key={data.id}
                                                 >
                                                     {data.name}

@@ -4,15 +4,25 @@ import { useRecoilState } from "recoil";
 import { sideNavState } from "./recoil/Recoil";
 import useUser from "@/data/use-user";
 import ChatIcon from "./icons/ChatIcon";
+import { useEffect, useLayoutEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function SideNav() {
     const [nowMode, setNowMode] = useRecoilState(sideNavState);
     const { loggedOut, user } = useUser();
+
+    useLayoutEffect(() => {
+        if (loggedOut == true) {
+            setNowMode('introduce')
+        } else {
+            setNowMode('chat')
+        }
+    }, [loggedOut, setNowMode]);
+
     let menu =
         loggedOut == undefined || loggedOut || !user.premium
-            ? [{ mode: "bard" }]
+            ? [{mode: "introduce"}]
             : [
-                    { mode: "google", sub: [{ icon: <ChatIcon/>, mode: "bard" }] },
                     { mode: "open-ai", sub: [{ icon: <ChatIcon/>, mode: "chat" }] },
                 ];
 
