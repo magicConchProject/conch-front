@@ -6,7 +6,7 @@ export default function Question({ Q }: Props) {
     return (
         <div className="flex justify-end">
             <div
-                className={`flex justify-end bg-yellow-400 p-1 px-2 sm:max-w-[450px] md:max-w-[650px]  lg:max-w-[800px] rounded-md mr-3 relative ${after}`}
+                className={`flex justify-end bg-teal-600 text-white p-2 px-3 sm:max-w-[450px] md:max-w-[650px]  lg:max-w-[800px] rounded-lg mr-3 relative ${after}`}
             >
                 {Q}
             </div>
@@ -14,4 +14,4 @@ export default function Question({ Q }: Props) {
     );
 }
 
-const after = `after:border-[6px] after:border-transparent after:border-t-yellow-400 after:border-l-yellow-400 after:w-0 after:absolute after:top-1.5 after:right-[-10px]`;
+const after = `after:border-[6px] after:border-transparent after:border-t-teal-600 after:border-l-teal-600 after:w-0 after:absolute after:top-1.5 after:right-[-10px]`;

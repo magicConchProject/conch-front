@@ -27,8 +27,8 @@ export default function Navbar() {
         <div className="flex justify-between items-center px-6 py-2">
             <section className="flex gap-5 items-center ">
                 <div className="flex gap-1 items-center ">
-                    <Image className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={25} height={25} />
-                    <h1 className="font-bold text-xs text-gray-500">마법의 소라고동</h1>
+                    <Image priority={true} className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={25} height={25} />
+                    {/* <h1 className="font-bold text-xs text-gray-500">마법의 소라고동</h1> */}
                 </div>
                 <nav>
                     <ul className="flex gap-4 items-center">
@@ -69,7 +69,7 @@ export default function Navbar() {
                                     <p className={pathName === "/mypage" ? "font-bold" : ""}>my page</p>
                                 </Link>
                             </li>
-                            <li className="font-bold text-yellow-500">{user.name}</li>
+                            <li className="font-bold text-xs">{user.name}</li>
 
                             <li onClick={signOut} className="cursor-pointer text-xs text-gray-400">
                                 <p>로그아웃</p>

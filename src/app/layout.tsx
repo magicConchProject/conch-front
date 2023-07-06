@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     {/* 로그인, 회원가입 화면에서는 헤더 필요 없음 */}
                     <Chakera>
                         <NavbarContainer>
-                            <header className="sticky top-0 bg-white z-10 border-b">
+                            <header className="sticky top-0 bg-white z-10 shadow-sm">
                                 <Navbar />
                             </header>
                         </NavbarContainer>

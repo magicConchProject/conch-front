@@ -3,7 +3,7 @@
 import useGroup from "@/data/use-group";
 import useUser from "@/data/use-user";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { PulseLoader } from "react-spinners";
 import showdown from "showdown";
 import MarkdownViewer from "../common/MarkdownViewer";
@@ -16,12 +16,16 @@ import CustomInput from "../common/CustomInput";
 import { useForm } from "react-hook-form";
 import SubmitButton from "../common/SubmitButton";
 import useTag from "@/data/use-tag";
+import { Button } from "@chakra-ui/react";
 type Props = {
     A: any;
     concept: string;
     model: string;
 };
 export default function GtpAnswer({ A, concept, model }: Props) {
+    const textareaRef = useRef();
+    const parentRef = useRef();
+
     const router = useRouter();
     const converter = new showdown.Converter();
     const { loggedOut } = useUser();
@@ -44,11 +48,14 @@ export default function GtpAnswer({ A, concept, model }: Props) {
         if (selectedGroup) {
             toast
                 .promise(
-                    addPost({ title: data.title, contents: htmlValue, group_id: String(selectedGroup.group.id), tag_id: selectedTag }).catch(
-                        (err) => {
-                            console.log(err);
-                        }
-                    ),
+                    addPost({
+                        title: data.title,
+                        contents: htmlValue,
+                        group_id: String(selectedGroup.group.id),
+                        tag_id: selectedTag,
+                    }).catch((err) => {
+                        console.log(err);
+                    }),
                     {
                         loading: "Loading",
                         success: () => "포스팅 성공",
@@ -73,25 +80,22 @@ export default function GtpAnswer({ A, concept, model }: Props) {
         <>
             <div className="flex">
                 {A.A === "loading" ? (
-                    <div className={`flex bg-white p-3 px-3 max-w-[800px] rounded-md ml-3 relative ${before}`}>
+                    <div className={`flex bg-stone-100 p-3 px-3 max-w-[800px] rounded-lg ml-3 relative ${before}`}>
                         <PulseLoader color="#b9b9b9" size={7} speedMultiplier={0.5} />
                     </div>
                 ) : (
                     <div
-                        className={`flex bg-white p-2 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-md ml-3 relative ${before} flex-col`}
+                        className={`flex bg-[#EFEFEE] p-2 px-3 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-lg ml-3 relative ${before} flex-col`}
                     >
-                        <section className="border-b pb-2">
+                        <section className="pb-2 border-b">
                             <MarkdownViewer data={A.A} />
                         </section>
 
                         <section className="mt-2">
                             {!loggedOut && (
-                                <button
-                                    onClick={Open}
-                                    className="w-full bg-neutral-200 rounded-md p-2 hover:bg-neutral-300 text-neutral-600"
-                                >
-                                    포스팅하기
-                                </button>
+                                <Button variant="ghost" size="xs" className="w-full" onClick={Open}>
+                                    이 답변 게시하기
+                                </Button>
                             )}
                         </section>
                     </div>
@@ -113,8 +117,8 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                                         : "bg-neutral-200 hover:bg-neutral-300"
                                                 } text-yellow-950 p-1 rounded-md text-sm cursor-pointer`}
                                                 onClick={() => {
-                                                    setSelectedGroup(data)
-                                                    setSelectedTag(null)
+                                                    setSelectedGroup(data);
+                                                    setSelectedTag(null);
                                                 }}
                                                 key={data.id}
                                             >
@@ -124,13 +128,32 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                 )}
                         </div>
                         <div className="flex gap-2 mb-2">
-                            {selectedGroup && tags && <> <div onClick={() => {setSelectedTag(null)}} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}>
-                                not choice</div> {tags.map((data: any) => 
-                                <div onClick={() => {setSelectedTag(data.id)}} key={data.id} className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}>
-                                    {data.name}
-                                </div>)}</>}
+                            {selectedGroup && tags && (
+                                <>
+                                    {" "}
+                                    <div
+                                        onClick={() => {
+                                            setSelectedTag(null);
+                                        }}
+                                        className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
+                                ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                    >
+                                        not choice
+                                    </div>{" "}
+                                    {tags.map((data: any) => (
+                                        <div
+                                            onClick={() => {
+                                                setSelectedTag(data.id);
+                                            }}
+                                            key={data.id}
+                                            className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
+                                ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                        >
+                                            {data.name}
+                                        </div>
+                                    ))}
+                                </>
+                            )}
                         </div>
                         <CustomInput labelName="제목 입력" register={register} label="title" />
                         <HtmlEditor
@@ -157,4 +180,4 @@ export default function GtpAnswer({ A, concept, model }: Props) {
     );
 }
 
-const before = `before:border-[6px] before:border-transparent before:border-t-neutral-50 before:border-r-neutral-50 before:w-0 before:absolute before:top-1.5 before:left-[-10px]`;
+const before = `before:border-[6px] before:border-transparent before:border-t-[#EFEFEE] before:border-r-[#EFEFEE] before:w-0 before:absolute before:top-1.5 before:left-[-10px]`;
