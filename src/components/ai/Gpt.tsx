@@ -56,6 +56,11 @@ export default function Gpt() {
                 model: Selected,
                 messages: [...gpt, { role: "user", content: ask }],
                 concept,
+                temperature,
+                topP,
+                maximumLength,
+                frequencyPenalty,
+                presencePenalty
             });
             socket.on("connect", () => {
                 console.log("WebSocket connected");
@@ -126,7 +131,7 @@ export default function Gpt() {
                     <BottomSearchBox Ask={Ask} available={available} />
                 </section>
             </div>
-            <div className="w-64 border-l flex flex-col">
+            <div className="w-72 border-l flex flex-col">
                 <section className="flex-1 relative">
                     <div className="absolute h-full w-full overflow-auto p-2 flex flex-col gap-4">
                         <div>
@@ -190,7 +195,7 @@ export default function Gpt() {
                                     max={2}
                                     step={0.01}
                                 >
-                                    <SliderMark value={temperature} textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
+                                    <SliderMark value={temperature} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
                                         {temperature}
                                     </SliderMark>
                                     <SliderTrack>
@@ -222,7 +227,7 @@ export default function Gpt() {
                                     max={1}
                                     step={0.01}
                                 >
-                                    <SliderMark value={topP} textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
+                                    <SliderMark value={topP} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
                                         {topP}
                                     </SliderMark>
                                     <SliderTrack>
@@ -249,7 +254,7 @@ export default function Gpt() {
                                     max={2048}
                                     step={1}
                                 >
-                                    <SliderMark value={maximumLength} textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
+                                    <SliderMark value={maximumLength} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
                                         {maximumLength}
                                     </SliderMark>
                                     <SliderTrack>
@@ -280,7 +285,7 @@ export default function Gpt() {
                                         setFrequencyPenalty(val);
                                     }}
                                 >
-                                    <SliderMark value={frequencyPenalty} textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
+                                    <SliderMark value={frequencyPenalty} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
                                         {frequencyPenalty}
                                     </SliderMark>
                                     <SliderTrack>
@@ -309,7 +314,7 @@ export default function Gpt() {
                                     step={0.01}
                                     onChange={(val) => setPresencePenalty(val)}
                                 >
-                                    <SliderMark value={presencePenalty} textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
+                                    <SliderMark value={presencePenalty} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
                                         {presencePenalty}
                                     </SliderMark>
                                     <SliderTrack>
