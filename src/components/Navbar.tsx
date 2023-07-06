@@ -27,15 +27,17 @@ export default function Navbar() {
         <div className="flex justify-between items-center px-6 py-2">
             <section className="flex gap-5 items-center ">
                 <div className="flex gap-1 items-center ">
-                    {/* <Image className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={15} height={15} /> */}
-                    <h1 className="font-bold text-lg">마법의 소라고동</h1>
-                    <p className="text-xs">dev</p>
+                    <Image className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={25} height={25} />
+                    <h1 className="font-bold text-xs text-gray-500">마법의 소라고동</h1>
                 </div>
                 <nav>
                     <ul className="flex gap-4 items-center">
                         {menu.map((item) => (
                             <li key={item.href}>
-                                <Link href={item.href} className={`/${pathName.split("/")[1]}` === item.href ? "font-bold" : ""}>
+                                <Link
+                                    href={item.href}
+                                    className={`/${pathName.split("/")[1]}` === item.href ? "font-bold text-teal-600" : ""}
+                                >
                                     {item.name}
                                 </Link>
                             </li>
@@ -50,13 +52,13 @@ export default function Navbar() {
                     ) : loggedOut ? (
                         <>
                             <li>
-                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signup">
-                                    회원가입
+                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signin">
+                                    로그인
                                 </Link>
                             </li>
                             <li>
-                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signin">
-                                    로그인
+                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signup">
+                                    회원가입
                                 </Link>
                             </li>
                         </>

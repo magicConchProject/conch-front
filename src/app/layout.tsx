@@ -4,6 +4,7 @@ import { Open_Sans } from "next/font/google";
 import Recoil from "@/components/recoil/Recoil";
 import NavbarContainer from "@/components/containers/NavbarContainer";
 import MyToaster from "@/components/common/MyToaster";
+import Chakera from "@/components/Chakra";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
@@ -19,13 +20,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <body className="w-full h-screen max-w-screen overflow-auto flex flex-col">
                     <MyToaster />
                     {/* 로그인, 회원가입 화면에서는 헤더 필요 없음 */}
-                    <NavbarContainer>
-                        <header className="sticky top-0 bg-white z-10 border-b">
-                            <Navbar />
-                        </header>
-                    </NavbarContainer>
+                    <Chakera>
+                        <NavbarContainer>
+                            <header className="sticky top-0 bg-white z-10 border-b">
+                                <Navbar />
+                            </header>
+                        </NavbarContainer>
 
-                    <main className="flex-1 w-full flex justify-center">{children}</main>
+                        <main className="flex-1 w-full flex justify-center">{children}</main>
+                    </Chakera>
                 </body>
             </Recoil>
         </html>
