@@ -18,8 +18,8 @@ export default function TagList({ tag, setTag }: Props) {
         <div className="flex gap-2">
             <div
                 onClick={() => setTag(null)}
-                className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                    ${tag == null ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}
+                className={`text-sm p-1 px-2 bg-[#EFEFEE] rounded-lg cursor-pointer
+                    ${tag == null ? "bg-teal-600 text-white" : "bg-[#EFEFEE]"}`}
             >
                 all
             </div>
@@ -27,8 +27,8 @@ export default function TagList({ tag, setTag }: Props) {
                 tags.map((data: any, index: number) => (
                     <div
                         onClick={() => setTag(data.id)}
-                        className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                    ${tag == data.id ? "bg-neutral-600 text-neutral-50" : "bg-neutral-50"}`}
+                        className={`text-sm p-1 px-2 bg-[#EFEFEE] rounded-lg cursor-pointer
+                    ${tag == data.id ? "bg-teal-600 text-white" : "bg-[#EFEFEE]"}`}
                         key={data.id}
                     >
                         {data.name}

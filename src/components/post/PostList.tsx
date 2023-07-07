@@ -18,6 +18,8 @@ import SubmitButton from "../common/SubmitButton";
 import toast from "react-hot-toast";
 import { addTag } from "@/api/tag";
 import TagSetting from "./TagSetting";
+import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Select } from "@chakra-ui/react";
+import PlusIcon from "../icons/PlusIcon";
 
 export default function PostList() {
     const params = useParams();
@@ -30,6 +32,8 @@ export default function PostList() {
     const [serachValue, setSearchValue] = useState("");
 
     const [nowTag, setNowTag] = useState<number | null>(null);
+
+    const [select, setSelect] = useState("title");
 
     const { posts, total, mutate, loading, group_name, isManager } = usePost(
         group_id,
@@ -99,10 +103,13 @@ export default function PostList() {
                 </div>
 
                 {/* <AddPost page={page} limit={limit}/> */}
-                <div className="flex items-center gap-2">
-                    {isManager && <TagSetting/>}
+                <div className="flex items-center gap-3">
+                    {isManager && <TagSetting />}
                     <Link href={`/postadd/${group_id}`}>
-                        <CustomButton name="새 포스트 작성" />
+                        <Button colorScheme="teal" size="sm">
+                            <PlusIcon />
+                            <p className="ml-1">새 포스트</p>
+                        </Button>
                     </Link>
                 </div>
             </div>
@@ -115,22 +122,32 @@ export default function PostList() {
             <div className="flex justify-between items-center">
                 {!loading && (
                     <>
-                        <form className="flex gap-2" onSubmit={handleSubmit(submitSearch)}>
-                            <select className="mb-3 p-1 rounded-md" {...register("searchOption")}>
-                                <option value="title">제목</option>
-                                <option value="name">작성자</option>
-                            </select>
-                            <input {...register("searchValue")} className="mb-3 p-1 rounded-md" />
-                            <button className="mb-3 p-1 px-2 rounded-md bg-yellow-400 hover:bg-yellow-500 text-yellow-950 font-bold text-sm">
-                                검색
-                            </button>
+                        <form onSubmit={handleSubmit(submitSearch)}>
+                            <InputGroup size="md" variant={"none"}>
+                                <InputLeftElement width="4.5rem">
+                                    <select {...register("searchOption")} className="text-sm bg-[#EFEFEE] p-1 rounded-md">
+                                        <option value="title">제목</option>
+                                        <option value="name">작성자</option>
+                                    </select>
+                                </InputLeftElement>
+                                <Input {...register("searchValue")} pl="4.8rem" pr="4.7rem" type="text" placeholder="검색어 입력" />
+                                <InputRightElement width="4.5rem">
+                                    <Button h="1.75rem" size="sm" type="submit" colorScheme="teal">
+                                        검색
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
                         </form>
                         <div className="flex gap-2">
-                            <select className="mb-3 p-1 rounded-md" value={order} onChange={handleChangeOrder}>
+                            <select className="mb-3 text-sm p-1 rounded-md bg-[#EFEFEE]" value={order} onChange={handleChangeOrder}>
                                 <option value="postDate">등록일</option>
                                 <option value="views">조회수</option>
                             </select>
-                            <select className="mb-3 p-1 rounded-md" value={limit} onChange={handleChangeSelect}>
+                            <select
+                                className="mb-3 p-1 rounded-md text-sm rounded-md bg-[#EFEFEE]"
+                                value={limit}
+                                onChange={handleChangeSelect}
+                            >
                                 <option value={10}>10</option>
                                 <option value={15}>15</option>
                                 <option value={20}>20</option>
@@ -173,7 +190,7 @@ export function renderPagination(totalPages: number, currentPage: number, handle
     return (
         <div className="flex w-full mt-3 justify-center pb-3">
             <ReactPaginate
-                className="flex justify-center items-center gap-1 bg-neutral-50 p-1 rounded-md text-gray-500"
+                className="flex justify-center items-center gap-1 p-1 text-gray-500"
                 pageCount={totalPages}
                 // initialPage={currentPage - 1}
                 forcePage={currentPage - 1}
@@ -192,7 +209,7 @@ export function renderPagination(totalPages: number, currentPage: number, handle
                 previousClassName={"font-bold rounded-md px-3 py-1"}
                 nextClassName={"font-bold rounded-md px-3 py-1"}
                 disabledClassName={"text-gray-400"}
-                activeLinkClassName={"bg-yellow-500 text-white font-bold rounded-md px-3 py-1"}
+                activeLinkClassName={"bg-teal-600 text-white font-bold rounded-md px-3 py-1"}
                 previousLinkClassName={"text-gray-400"}
                 nextLinkClassName={"text-gray-400"}
             />

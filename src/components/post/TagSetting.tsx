@@ -9,6 +9,7 @@ import useTag from "@/data/use-tag";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { addTag, deleteTag, editTag } from "@/api/tag";
+import { Button } from "@chakra-ui/react";
 
 export default function TagSetting() {
     const param = useParams();
@@ -67,7 +68,9 @@ export default function TagSetting() {
 
     return (
         <>
-            <CustomButton onClick={() => setModalOpen(true)} name="태그 관리" />
+            <Button onClick={() => setModalOpen(true)} size="sm" variant="link" colorScheme="teal">
+                태그 관리
+            </Button>
 
             {modalAddOpen && (
                 <Modal open={modalAddOpen} setOpen={(open) => setModalAddOpen(open)} title="새 태그 만들기">

@@ -98,7 +98,7 @@ export default function GtpAnswer({ A, concept, model }: Props) {
 
                         <section className="mt-2">
                             {!loggedOut && (
-                                <Button variant="ghost" size="xs" className="w-full" onClick={onOpen}>
+                                <Button variant="link" size="xs" className="w-full" onClick={onOpen}>
                                     이 답변 게시하기
                                 </Button>
                             )}
