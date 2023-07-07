@@ -16,7 +16,7 @@ export default function PostLayout({ children }: { children: React.ReactNode }) 
     }, [loggedOut, router]);
 
     return (
-        <div className="bg-slate-200 w-full flex-1 relative">
+        <div className="w-full flex-1 relative">
             <div className="absolute h-full overflow-auto w-full flex justify-center">{!loggedOut && children}</div>
         </div>
     );

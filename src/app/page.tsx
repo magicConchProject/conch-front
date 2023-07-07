@@ -16,16 +16,29 @@ export default function Home() {
 
     return (
         <div className="flex w-full relative">
-            {!sideOpen && <button onClick={() => setSideOpen(true)} className="absolute z-10 bg-white top-2 h-10 px-[2px] rounded-r-sm shadow-md"><HiChevronRight/></button>}
-            <div onClick={() => setSideOpen(false)} className={`absolute bg-black left-0 h-full z-10 bg-opacity-25 ${sideOpen ? 'w-full' : 'w-0'}`}>
-                <div onClick={(event) => event.stopPropagation()} 
-                className={`w-[200px] h-full shadow-[4px_0_4px_-4px_rgba(0,0,0,0.3)] p-2 z-11 absolute bg-white ${sideOpen ? 'left-0 ' : 'left-[-200px] '} 
-                ease-in-out transition-all duration-300`}>
+            {!sideOpen && (
+                <button onClick={() => setSideOpen(true)} className="absolute z-10 bg-white top-2 h-10 px-[2px] rounded-r-sm shadow-md">
+                    <HiChevronRight />
+                </button>
+            )}
+            <div
+                onClick={() => setSideOpen(false)}
+                className={`absolute bg-black left-0 h-full z-10 bg-opacity-25 ${sideOpen ? "w-full" : "w-0"}`}
+            >
+                <div
+                    onClick={(event) => event.stopPropagation()}
+                    className={`w-[200px] h-full shadow-[4px_0_4px_-4px_rgba(0,0,0,0.3)] p-2 z-11 absolute bg-white ${
+                        sideOpen ? "left-0 " : "left-[-200px] "
+                    } 
+                ease-in-out transition-all duration-300`}
+                >
                     <SideNav />
                 </div>
             </div>
 
-            {nowMode == 'introduce' && <Introduce/>}
+            {nowMode == "" && <div>loading...</div>}
+
+            {nowMode == "introduce" && <Introduce />}
 
             {nowMode == "bard" && <Bard />}
             {nowMode == "chat" && <Gpt />}

@@ -45,12 +45,12 @@ export default function BottomSearchBox({ Ask, available }: Props) {
             <Textarea
                 border={"none"}
                 focusBorderColor="none"
-                rows={1}
+                rows={3}
                 ref={textareaRef}
                 className={`w-[100%] resize-none border-2 rounded-md`}
                 onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                        if (!e.shiftKey) {
+                        if (!e.shiftKey && answer !== "") {
                             submit();
                         }
                     }

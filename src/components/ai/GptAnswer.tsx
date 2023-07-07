@@ -8,7 +8,17 @@ import { PulseLoader } from "react-spinners";
 import showdown from "showdown";
 import MarkdownViewer from "../common/MarkdownViewer";
 // import Modal from "../common/Modal";
-import { Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure } from "@chakra-ui/react";
+import {
+    Input,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    useDisclosure,
+} from "@chakra-ui/react";
 import SignButton from "../sign/SignButton";
 import toast from "react-hot-toast";
 import { addPost } from "@/api/post";
@@ -25,8 +35,8 @@ type Props = {
     model: string;
 };
 export default function GtpAnswer({ A, concept, model }: Props) {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const btnRef = React.useRef(null)
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const btnRef = React.useRef(null);
 
     const router = useRouter();
     const converter = new showdown.Converter();
@@ -38,7 +48,6 @@ export default function GtpAnswer({ A, concept, model }: Props) {
     const { tags } = useTag(selectedGroup ? selectedGroup?.group?.id : 0);
 
     const { register, handleSubmit } = useForm();
-
 
     function Store(data: any) {
         if (selectedGroup) {
@@ -98,75 +107,76 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                 )}
             </div>
 
-                <Modal
-                    onClose={onClose}
-                    finalFocusRef={btnRef}
-                    isOpen={isOpen}
-                    scrollBehavior='inside'
-                    size='3xl'
-                    isCentered
-                >
-                    <ModalOverlay />
+            <Modal onClose={onClose} finalFocusRef={btnRef} isOpen={isOpen} scrollBehavior="inside" size="3xl" isCentered>
+                <ModalOverlay />
+                <form onSubmit={handleSubmit(Store)}>
                     <ModalContent>
-                    <ModalHeader>답변 게시하기</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                    <form className="flex flex-col gap-3" onSubmit={handleSubmit(Store)}>
-                            <div className="flex gap-2 mb-2">
-                                {!loading &&
-                                    groups.map(
-                                        (data: any) =>
-                                            data.joined && (
-                                                <div
-                                                    className={`${
-                                                        selectedGroup == data
-                                                            ? "bg-teal-500 hover:bg-teal-600 text-white"
-                                                            : "bg-neutral-200 hover:bg-neutral-300"
-                                                    } p-1 rounded-md text-sm cursor-pointer`}
-                                                    onClick={() => {
-                                                        setSelectedGroup(data);
-                                                        setSelectedTag(null);
-                                                    }}
-                                                    key={data.id}
-                                                >
-                                                    {data.group.name}
-                                                </div>
-                                            )
-                                    )}
-                            </div>
-                            <div className="flex gap-2 mb-2">
-                                {selectedGroup && tags && (
-                                    <>
-                                        {" "}
-                                        <div
-                                            onClick={() => {
-                                                setSelectedTag(null);
-                                            }}
-                                            className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                    ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}
-                                        >
-                                            not choice
-                                        </div>{" "}
-                                        {tags.map((data: any) => (
+                        <ModalHeader>답변 게시하기</ModalHeader>
+                        <ModalCloseButton />
+
+                        <ModalBody>
+                            <div className="flex flex-col gap-3">
+                                <div className="flex gap-2 mb-2">
+                                    {!loading &&
+                                        groups.map(
+                                            (data: any) =>
+                                                data.joined && (
+                                                    <div
+                                                        className={`${
+                                                            selectedGroup == data
+                                                                ? "bg-teal-500 hover:bg-teal-600 text-white"
+                                                                : "bg-neutral-200 hover:bg-neutral-300"
+                                                        } p-1 rounded-md text-sm cursor-pointer`}
+                                                        onClick={() => {
+                                                            setSelectedGroup(data);
+                                                            setSelectedTag(null);
+                                                        }}
+                                                        key={data.id}
+                                                    >
+                                                        {data.group.name}
+                                                    </div>
+                                                )
+                                        )}
+                                </div>
+                                <div className="flex gap-2 mb-2">
+                                    {selectedGroup && tags && (
+                                        <>
+                                            {" "}
                                             <div
                                                 onClick={() => {
-                                                    setSelectedTag(data.id);
+                                                    setSelectedTag(null);
                                                 }}
-                                                key={data.id}
                                                 className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                    ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                    ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}
                                             >
-                                                {data.name}
-                                            </div>
-                                        ))}
-                                    </>
-                                )}
-                            </div>
-                            {/* <CustomInput labelName="제목 입력" register={register} label="title" /> */}
-                            <Input variant='filled' required type="text" placeholder="제목 입력" {...register("title", { required: true })} />
-                            <HtmlEditor
-                                getChange={getChange}
-                                content={`
+                                                not choice
+                                            </div>{" "}
+                                            {tags.map((data: any) => (
+                                                <div
+                                                    onClick={() => {
+                                                        setSelectedTag(data.id);
+                                                    }}
+                                                    key={data.id}
+                                                    className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
+                                    ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                                >
+                                                    {data.name}
+                                                </div>
+                                            ))}
+                                        </>
+                                    )}
+                                </div>
+                                {/* <CustomInput labelName="제목 입력" register={register} label="title" /> */}
+                                <Input
+                                    variant="filled"
+                                    required
+                                    type="text"
+                                    placeholder="제목 입력"
+                                    {...register("title", { required: true })}
+                                />
+                                <HtmlEditor
+                                    getChange={getChange}
+                                    content={`
                                 <h5>ask to gpt</h5>
                                 <strong>model</strong>: ${model}
                                 <br/>
@@ -179,17 +189,17 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                 <h3><strong>A.</strong></h3>\n
                                 ${converter.makeHtml(A.A)}
                                 `}
-                            />
+                                />
+                            </div>
+                        </ModalBody>
+                        <ModalFooter>
                             <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
                                 등록하기
                             </Button>
-                        </form>
-                    </ModalBody>
-                    <ModalFooter>
-                        {/* <Button onClick={onClose}>Close</Button> */}
-                    </ModalFooter>
+                        </ModalFooter>
                     </ModalContent>
-                </Modal>
+                </form>
+            </Modal>
         </>
     );
 }

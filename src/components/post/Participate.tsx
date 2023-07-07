@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
-import Modal from "../common/Modal";
+
 import CustomInput from "../common/CustomInput";
 import SubmitButton from "../common/SubmitButton";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,6 +9,27 @@ import SignButton from "../sign/SignButton";
 import toast from "react-hot-toast";
 import useGroup from "@/data/use-group";
 import { participate, searchGroup } from "@/api/group";
+import {
+    Box,
+    Button,
+    Flex,
+    Input,
+    InputGroup,
+    InputRightElement,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Radio,
+    RadioGroup,
+    Stack,
+    useDisclosure,
+} from "@chakra-ui/react";
+import IndoorIcon from "../icons/IndoorIcon";
+import React from "react";
 
 export default function ParticipateButton() {
     //새 그룹 만들기 모달창용 state
@@ -22,16 +43,23 @@ export default function ParticipateButton() {
 
     const { mutate } = useGroup();
 
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const btnRef = React.useRef(null);
+
+    const [value, setValue] = React.useState("");
+
     //그룹 검색 기능
     const submit: SubmitHandler<any> = (data) => {
         toast.promise(
-            searchGroup(data).then((res) => {
-                setMySearch(() => {
-                    return [...res];
-                });
-            }).catch((err) => {
-                throw new Error(err)
-            }),
+            searchGroup(data)
+                .then((res) => {
+                    setMySearch(() => {
+                        return [...res];
+                    });
+                })
+                .catch((err) => {
+                    throw new Error(err);
+                }),
             {
                 loading: "Loading",
                 success: () => "검색 성공",
@@ -58,7 +86,7 @@ export default function ParticipateButton() {
             })
             .then((res) => {
                 if (res.message == "success") {
-                    setModalOpen(false);
+                    onClose();
                     mutate();
                 }
             });
@@ -66,40 +94,58 @@ export default function ParticipateButton() {
 
     return (
         <>
-            <div
-                onClick={() => setModalOpen(true)}
-                className="bg-slate-300 rounded-md p-2 mt-5 hover:bg-slate-400 cursor-pointer flex justify-center"
-            >
-                <PlusIcon />
-            </div>
+            <Button colorScheme="teal" onClick={onOpen} size="sm">
+                <IndoorIcon />
+                <p className="ml-1">새 그룹 참여</p>
+            </Button>
 
-            <Modal open={ModalOpen} setOpen={(open) => setModalOpen(open)} title="그룹 참여하기">
-                <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
-                    <div className="flex w-full gap-2 items-center">
-                        <div className="flex-1">
-                            <CustomInput register={register} label="name" />
-                        </div>
-                        <SubmitButton name="검색하기" />
-                    </div>
-                </form>
-                <div className="my-3 flex flex-col gap-3">
-                    {mySearch.length == 0 ? (
-                        <div>결과 없음</div>
-                    ) : (
-                        mySearch.map((data, index) => {
-                            return (
-                                <div 
-                                className={`${selectedGroup == data? 'bg-yellow-400 hover:bg-yellow-500': 'bg-neutral-200 hover:bg-neutral-300'} text-yellow-950 p-1 rounded-md text-sm cursor-pointer`}
-                                onClick={() => selectGroup(data)} key={data.id}>
-                                    {data.name}
-                                </div>
-                            );
-                        })
-                    )}
-                </div>
-                <div className="flex flex-col">
-                    <SignButton onClick={selectedGroupSubmit} buttonName="참여하기" />
-                </div>
+            <Modal onClose={onClose} finalFocusRef={btnRef} isOpen={isOpen} scrollBehavior="inside" isCentered>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>새 그룹 참여하기</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <form className="flex flex-col gap-3 mb-3" onSubmit={handleSubmit(submit)}>
+                            <InputGroup size="md">
+                                <Input
+                                    {...register("name", { required: true })}
+                                    pr="4.5rem"
+                                    type="text"
+                                    placeholder="참여할 그룹을 입력하세요"
+                                />
+                                <InputRightElement width="4.5rem">
+                                    <Button h="1.75rem" size="sm" type="submit">
+                                        검색
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
+                        </form>
+                        <RadioGroup onChange={setValue} value={value}>
+                            <Stack>
+                                {mySearch.length == 0 ? (
+                                    <div>결과 없음</div>
+                                ) : (
+                                    mySearch.map((data, index) => {
+                                        return (
+                                            <Box key={data.id} width="100%" onClick={() => selectGroup(data)}>
+                                                <div>
+                                                    <Radio width="100%" value={`${index}`} colorScheme="teal">
+                                                        {data.name}
+                                                    </Radio>
+                                                </div>
+                                            </Box>
+                                        );
+                                    })
+                                )}
+                            </Stack>
+                        </RadioGroup>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button onClick={selectedGroupSubmit} colorScheme="teal" variant="solid" className="w-full">
+                            참여하기
+                        </Button>
+                    </ModalFooter>
+                </ModalContent>
             </Modal>
         </>
     );

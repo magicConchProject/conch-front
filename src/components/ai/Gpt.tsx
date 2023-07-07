@@ -16,7 +16,32 @@ import BottomSearchBox from "./BottomSearchBox";
 import Modal from "../common/Modal";
 import { toast } from "react-hot-toast";
 import io from "socket.io-client";
-import { Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Text, Textarea, Tooltip } from "@chakra-ui/react";
+import {
+    Button,
+    Flex,
+    IconButton,
+    Menu,
+    MenuButton,
+    MenuDivider,
+    MenuItem,
+    MenuList,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    Select,
+    Slider,
+    SliderFilledTrack,
+    SliderMark,
+    SliderThumb,
+    SliderTrack,
+    Stack,
+    Text,
+    Textarea,
+    Tooltip,
+} from "@chakra-ui/react";
+import MenuIcon from "../icons/MenuIcon";
 
 export default function Gpt() {
     //gpt 질문 이력 전역 state에 저장
@@ -47,8 +72,8 @@ export default function Gpt() {
 
     function Ask(ask: string) {
         setAvailable(false);
-        const socket = io("http://localhost:8080");
-        // const socket = io('https://limhogyun.com'); // WebSocket 서버 주소로 변경
+        // const socket = io("http://localhost:8080");
+        const socket = io("https://limhogyun.com"); // WebSocket 서버 주소로 변경
         if (ask != "") {
             setGpt((state) => [...state, { role: "user", content: ask }]);
             setGpt((state) => [...state, { role: "assistant", content: "loading" }]);
@@ -60,7 +85,7 @@ export default function Gpt() {
                 topP,
                 maximumLength,
                 frequencyPenalty,
-                presencePenalty
+                presencePenalty,
             });
             socket.on("connect", () => {
                 console.log("WebSocket connected");
@@ -132,8 +157,25 @@ export default function Gpt() {
                 </section>
             </div>
             <div className="w-72 border-l flex flex-col">
+                <section className="w-full pb-1 pt-2 px-2 border-b">
+                    <Flex justifyContent="space-between" alignItems="center">
+                        <h1 className="font-bold text-sm text-gray-600">create chatbot</h1>
+                        <Menu>
+                            <MenuButton as={IconButton} aria-label="Options" icon={<MenuIcon />} variant="outline" />
+                            <MenuList>
+                                <MenuItem>내 설정 불러오기</MenuItem>
+                                <MenuItem>설정 초기화</MenuItem>
+                                <MenuDivider />
+                                <MenuItem>이 설정 저장하기</MenuItem>
+                                {/* <MenuItem icon={<EditIcon />} command="⌘O">
+                                    Open File...
+                                </MenuItem> */}
+                            </MenuList>
+                        </Menu>
+                    </Flex>
+                </section>
                 <section className="flex-1 relative">
-                    <div className="absolute h-full w-full overflow-auto p-2 flex flex-col gap-4">
+                    <div className="absolute h-full w-full overflow-auto px-2 flex flex-col gap-4">
                         <div>
                             <Tooltip hasArrow label="대화를 하기 전 시스템이 알아야할 사전 지식을 입력합니다." placement="auto">
                                 <Text fontSize="sm">Concept</Text>
@@ -175,51 +217,95 @@ export default function Gpt() {
                             </Select>
                         </div>
                         <div>
-                            <Tooltip
-                                hasArrow
-                                label="샘플링 온도를 지정합니다. 0과 2사이의 범위에서 지정할 수 있으며, 0.8과 같은 높은 값은 출력을 더 무작위로 만드는 반면, 0.2와 같은 낮은 값은 더 집중되고 결정론적인 출력을 만듭니다."
-                                placement="auto"
-                            >
-                                <Text fontSize="sm">Temperature</Text>
-                            </Tooltip>
-                            <div className="h-8"></div>
-                            <div className="px-4">
+                            <Flex justifyContent="space-between">
+                                <Tooltip
+                                    hasArrow
+                                    label="샘플링 온도를 지정합니다. 0과 2사이의 범위에서 지정할 수 있으며, 0.8과 같은 높은 값은 출력을 더 무작위로 만드는 반면, 0.2와 같은 낮은 값은 더 집중되고 결정론적인 출력을 만듭니다."
+                                    placement="auto"
+                                >
+                                    <Text fontSize="sm">Temperature</Text>
+                                </Tooltip>
+                                <NumberInput
+                                    size="xs"
+                                    maxW="65px"
+                                    max={2}
+                                    min={0}
+                                    step={0.01}
+                                    value={temperature}
+                                    onChange={(val) => {
+                                        setTemperature(Number(val));
+                                    }}
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </Flex>
+
+                            <div className="px-3 mt-2">
                                 <Slider
                                     aria-label="slider-ex-2"
                                     colorScheme="teal"
-                                    defaultValue={temperature}
+                                    value={temperature}
                                     onChange={(val) => {
                                         setTemperature(val);
                                     }}
                                     min={0}
                                     max={2}
                                     step={0.01}
+                                    focusThumbOnChange={false}
                                 >
-                                    <SliderMark value={temperature} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
-                                        {temperature}
+                                    {/* <SliderMark value={0} mt="1" ml="-2.2" fontSize="sm">
+                                        0
                                     </SliderMark>
+                                    <SliderMark value={2} mt="1" ml="-2.2" fontSize="sm">
+                                        2
+                                    </SliderMark> */}
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
-                                    <SliderThumb />
+                                    <SliderThumb fontSize="sm" boxSize="32px">
+                                        {temperature}
+                                    </SliderThumb>
                                 </Slider>
                             </div>
                         </div>
 
                         <div>
-                            <Tooltip
-                                hasArrow
-                                label="확률 집합을 고려하는 방법입니다. 예를 들어, 0.1은 확률 10%에 해당하는 토큰들만 고려한다는 의미 입니다."
-                                placement="auto"
-                            >
-                                <Text fontSize="sm">Top P</Text>
-                            </Tooltip>
-                            <div className="h-8"></div>
-                            <div className="px-4">
+                            <Flex justifyContent="space-between">
+                                <Tooltip
+                                    hasArrow
+                                    label="확률 집합을 고려하는 방법입니다. 예를 들어, 0.1은 확률 10%에 해당하는 토큰들만 고려한다는 의미 입니다."
+                                    placement="auto"
+                                >
+                                    <Text fontSize="sm">Top P</Text>
+                                </Tooltip>
+                                <NumberInput
+                                    size="xs"
+                                    maxW="65px"
+                                    max={1}
+                                    min={0}
+                                    step={0.01}
+                                    value={topP}
+                                    onChange={(val) => {
+                                        setTopP(Number(val));
+                                    }}
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </Flex>
+
+                            <div className="px-3 mt-2">
                                 <Slider
                                     aria-label="slider-ex-2"
                                     colorScheme="teal"
-                                    defaultValue={topP}
+                                    value={topP}
                                     onChange={(val) => {
                                         setTopP(val);
                                     }}
@@ -227,26 +313,49 @@ export default function Gpt() {
                                     max={1}
                                     step={0.01}
                                 >
-                                    <SliderMark value={topP} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
-                                        {topP}
+                                    {/* <SliderMark value={0} mt="1" ml="-2.2" fontSize="sm">
+                                        0
                                     </SliderMark>
+                                    <SliderMark value={1} mt="1" ml="-2.2" fontSize="sm">
+                                        1
+                                    </SliderMark> */}
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
-                                    <SliderThumb />
+                                    <SliderThumb fontSize="sm" boxSize="32px">
+                                        {topP}
+                                    </SliderThumb>
                                 </Slider>
                             </div>
                         </div>
                         <div>
-                            <Tooltip hasArrow label="채팅 완성 시 생성할 토큰의 최대 개수를 지정할 수 있습니다." placement="auto">
-                                <Text fontSize="sm">Maximum length</Text>
-                            </Tooltip>
-                            <div className="h-8"></div>
-                            <div className="px-4">
+                            <Flex justifyContent="space-between">
+                                <Tooltip hasArrow label="채팅 완성 시 생성할 토큰의 최대 개수를 지정할 수 있습니다." placement="auto">
+                                    <Text fontSize="sm">Maximum length</Text>
+                                </Tooltip>
+                                <NumberInput
+                                    size="xs"
+                                    maxW="65px"
+                                    max={2048}
+                                    min={1}
+                                    step={1}
+                                    value={maximumLength}
+                                    onChange={(val) => {
+                                        setMaximumLength(Number(val));
+                                    }}
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </Flex>
+                            <div className="px-3 mt-2">
                                 <Slider
                                     aria-label="slider-ex-2"
                                     colorScheme="teal"
-                                    defaultValue={maximumLength}
+                                    value={maximumLength}
                                     onChange={(val) => {
                                         setMaximumLength(val);
                                     }}
@@ -254,30 +363,53 @@ export default function Gpt() {
                                     max={2048}
                                     step={1}
                                 >
-                                    <SliderMark value={maximumLength} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
-                                        {maximumLength}
+                                    {/* <SliderMark value={0} mt="1" ml="-2.2" fontSize="sm">
+                                        0
                                     </SliderMark>
+                                    <SliderMark value={2048} mt="1" ml="-4" fontSize="sm">
+                                        2048
+                                    </SliderMark> */}
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
-                                    <SliderThumb />
+                                    <SliderThumb fontSize="sm" boxSize="32px">
+                                        {maximumLength}{" "}
+                                    </SliderThumb>
                                 </Slider>
                             </div>
                         </div>
                         <div>
-                            <Tooltip
-                                hasArrow
-                                label="-2.0과 2.0 사이의 숫자 중 양수는 현재까지 텍스트에서 토큰의 빈도에 따라 새로운 토큰에 벌점을 주어 동일한 문장을 그대로 반복하는 모델의 확률을 감소시킵니다."
-                                placement="auto"
-                            >
-                                <Text fontSize="sm">Frequency penalty</Text>
-                            </Tooltip>
-                            <div className="h-8"></div>
-                            <div className="px-4">
+                            <Flex justifyContent="space-between">
+                                <Tooltip
+                                    hasArrow
+                                    label="-2.0과 2.0 사이의 숫자 중 양수는 현재까지 텍스트에서 토큰의 빈도에 따라 새로운 토큰에 벌점을 주어 동일한 문장을 그대로 반복하는 모델의 확률을 감소시킵니다."
+                                    placement="auto"
+                                >
+                                    <Text fontSize="sm">Frequency penalty</Text>
+                                </Tooltip>
+                                <NumberInput
+                                    size="xs"
+                                    maxW="65px"
+                                    max={2}
+                                    min={-2}
+                                    step={0.01}
+                                    value={frequencyPenalty}
+                                    onChange={(val) => {
+                                        setFrequencyPenalty(Number(val));
+                                    }}
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </Flex>
+                            <div className="px-3 mt-2">
                                 <Slider
                                     aria-label="slider-ex-2"
                                     colorScheme="teal"
-                                    defaultValue={frequencyPenalty}
+                                    value={frequencyPenalty}
                                     min={-2}
                                     max={2}
                                     step={0.01}
@@ -285,46 +417,79 @@ export default function Gpt() {
                                         setFrequencyPenalty(val);
                                     }}
                                 >
-                                    <SliderMark value={frequencyPenalty} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
-                                        {frequencyPenalty}
+                                    {/* <SliderMark value={-2} mt="1" ml="-2.3" fontSize="sm">
+                                        -2
                                     </SliderMark>
+                                    <SliderMark value={2} mt="1" ml="-2.2" fontSize="sm">
+                                        2
+                                    </SliderMark> */}
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
-                                    <SliderThumb />
+                                    <SliderThumb fontSize="sm" boxSize="32px">
+                                        {frequencyPenalty}
+                                    </SliderThumb>
                                 </Slider>
                             </div>
                         </div>
                         <div>
-                            <Tooltip
-                                hasArrow
-                                label="-2.0과 2.0 사이의 숫자는 음수면 이전 텍스트에 해당하는 토큰이 나타나면 모델의 새로운 주제에 대한 확률이 증가하여 새로운 토픽에 대해 말하려는 경향이 강화되고 양수면 그 반대입니다."
-                                placement="auto"
-                            >
-                                <Text fontSize="sm">Presence penalty</Text>
-                            </Tooltip>
-                            <div className="h-8"></div>
-                            <div className="px-4">
+                            <Flex justifyContent="space-between">
+                                <Tooltip
+                                    hasArrow
+                                    label="-2.0과 2.0 사이의 숫자는 음수면 이전 텍스트에 해당하는 토큰이 나타나면 모델의 새로운 주제에 대한 확률이 증가하여 새로운 토픽에 대해 말하려는 경향이 강화되고 양수면 그 반대입니다."
+                                    placement="auto"
+                                >
+                                    <Text fontSize="sm">Presence penalty</Text>
+                                </Tooltip>
+                                <NumberInput
+                                    size="xs"
+                                    maxW="65px"
+                                    max={2}
+                                    min={-2}
+                                    step={0.01}
+                                    value={presencePenalty}
+                                    onChange={(val) => {
+                                        setPresencePenalty(Number(val));
+                                    }}
+                                >
+                                    <NumberInputField />
+                                    <NumberInputStepper>
+                                        <NumberIncrementStepper />
+                                        <NumberDecrementStepper />
+                                    </NumberInputStepper>
+                                </NumberInput>
+                            </Flex>
+                            <div className="px-3 mt-2">
                                 <Slider
                                     aria-label="slider-ex-2"
                                     colorScheme="teal"
-                                    defaultValue={presencePenalty}
+                                    value={presencePenalty}
                                     min={-2}
                                     max={2}
                                     step={0.01}
                                     onChange={(val) => setPresencePenalty(val)}
                                 >
-                                    <SliderMark value={presencePenalty} borderRadius='md' textAlign="center" bg="teal" color="white" mt="-10" ml="-5" w="10">
-                                        {presencePenalty}
+                                    {/* <SliderMark value={-2} mt="1" ml="-2.3" fontSize="sm">
+                                        -2
                                     </SliderMark>
+                                    <SliderMark value={2} mt="1" ml="-2.2" fontSize="sm">
+                                        2
+                                    </SliderMark> */}
                                     <SliderTrack>
                                         <SliderFilledTrack />
                                     </SliderTrack>
-                                    <SliderThumb />
+                                    <SliderThumb fontSize="sm" boxSize="32px">
+                                        {presencePenalty}
+                                    </SliderThumb>
                                 </Slider>
                             </div>
                         </div>
                     </div>
+                </section>
+                <section>
+                    <Button sx={{ borderRadius: "none" }} colorScheme="teal" variant="solid" className="w-full">
+                        내 챗봇 게시하기
+                    </Button>
                 </section>
             </div>
         </div>

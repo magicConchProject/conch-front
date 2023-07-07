@@ -26,7 +26,7 @@ export const gptTamperature = atom<number>({
 
 export const gptMaximumLength = atom<number>({
     key: "gptMaxTokens",
-    default: 256,
+    default: 512,
 });
 
 export const gptTop_p = atom<number>({

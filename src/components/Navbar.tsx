@@ -7,10 +7,14 @@ import useUser from "@/data/use-user";
 
 import { PulseLoader } from "react-spinners";
 import { signOutApi } from "@/api/user";
+import LabFilledIcon from "./icons/nav/LabFilledIcon";
+import PostFilledIcon from "./icons/nav/PostFilledIcon";
+import LabIcon from "./icons/nav/LabIcon";
+import PostOutlineIcon from "./icons/nav/PostOutlineIcon";
 
 const menu = [
-    { href: "/", name: "lab" },
-    { href: "/post", name: "post" },
+    { href: "/", name: "lab", selected: <LabFilledIcon />, not_selected: <LabIcon /> },
+    { href: "/post", name: "post", selected: <PostFilledIcon />, not_selected: <PostOutlineIcon /> },
 ];
 
 export default function Navbar() {
@@ -38,7 +42,7 @@ export default function Navbar() {
                                     href={item.href}
                                     className={`/${pathName.split("/")[1]}` === item.href ? "font-bold text-teal-600" : ""}
                                 >
-                                    {item.name}
+                                    {`/${pathName.split("/")[1]}` === item.href ? item.selected : item.not_selected}
                                 </Link>
                             </li>
                         ))}
@@ -53,12 +57,12 @@ export default function Navbar() {
                         <>
                             <li>
                                 <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signin">
-                                    로그인
+                                    sign in
                                 </Link>
                             </li>
                             <li>
                                 <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signup">
-                                    회원가입
+                                    sign up
                                 </Link>
                             </li>
                         </>
@@ -72,7 +76,7 @@ export default function Navbar() {
                             <li className="font-bold text-xs">{user.name}</li>
 
                             <li onClick={signOut} className="cursor-pointer text-xs text-gray-400">
-                                <p>로그아웃</p>
+                                <p>sign out</p>
                             </li>
                         </>
                     )}
