@@ -5,6 +5,7 @@ import {
     gptFrequencyPenalty,
     gptMaximumLength,
     gptPresencePenalty,
+    gptSelectedModel,
     gptState,
     gptTamperature,
     gptTop_p,
@@ -18,8 +19,16 @@ import { toast } from "react-hot-toast";
 import io from "socket.io-client";
 import {
     Button,
+    Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerOverlay,
     Flex,
     IconButton,
+    Input,
     Menu,
     MenuButton,
     MenuDivider,
@@ -40,8 +49,10 @@ import {
     Text,
     Textarea,
     Tooltip,
+    useDisclosure,
 } from "@chakra-ui/react";
 import MenuIcon from "../icons/MenuIcon";
+import React from "react";
 
 export default function Gpt() {
     //gpt 질문 이력 전역 state에 저장
@@ -60,15 +71,15 @@ export default function Gpt() {
     const [presencePenalty, setPresencePenalty] = useRecoilState<number>(gptPresencePenalty);
 
     const ref = useRef<HTMLDivElement>(null);
-    //모델 설정 state
-    const [Selected, setSelected] = useState("gpt-3.5-turbo");
+
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const btnRef = React.useRef(null)
+
+    const [selectedModel, setSelectedModel] = useRecoilState<string>(gptSelectedModel);
 
     const [available, setAvailable] = useState<boolean>(true);
 
-    const handleChangeSelect = (e: any) => {
-        e.preventDefault();
-        setSelected(e.target.value);
-    };
 
     function Ask(ask: string) {
         setAvailable(false);
@@ -78,7 +89,7 @@ export default function Gpt() {
             setGpt((state) => [...state, { role: "user", content: ask }]);
             setGpt((state) => [...state, { role: "assistant", content: "loading" }]);
             socket.emit("gptChat", {
-                model: Selected,
+                model: selectedModel,
                 messages: [...gpt, { role: "user", content: ask }],
                 concept,
                 temperature,
@@ -143,7 +154,7 @@ export default function Gpt() {
                                             <GtpAnswer
                                                 A={{ Q: gpt[index - 1]["content"], A: data["content"] }}
                                                 concept={concept}
-                                                model={Selected}
+                                                model={selectedModel}
                                             />
                                         )}
                                     </div>
@@ -153,11 +164,51 @@ export default function Gpt() {
                 </section>
                 {/* 검색 창 섹션 */}
                 <section className="w-full">
+                    <div className="md:hidden flex p-1"><Button size='xs' ref={btnRef} colorScheme='teal' onClick={onOpen}>open setting</Button></div>
                     <BottomSearchBox Ask={Ask} available={available} />
                 </section>
             </div>
-            <div className="w-72 border-l flex flex-col">
-                <section className="w-full pb-1 pt-2 px-2 border-b">
+            <Drawer
+                isOpen={isOpen}
+                placement='right'
+                onClose={onClose}
+                finalFocusRef={btnRef}
+            >
+                <DrawerOverlay />
+                <DrawerContent>
+                    <DrawerCloseButton />
+                    <DrawerHeader></DrawerHeader>
+                    <DrawerBody p={0}>
+                        <div className="flex flex-col h-full">
+                            <SettingComponent/>
+                        </div>
+                    </DrawerBody>
+                </DrawerContent>
+            </Drawer>
+            
+            <div className="hidden md:flex md:w-72 md:border-l md:flex-col ">
+                <SettingComponent/>
+            </div>
+        </div>
+    );
+}
+export function SettingComponent() {
+        //컨셉도 전역으로 설정
+        const [concept, setConcept] = useRecoilState<string>(gptConcept);
+        //그럼 temperature도 전역으로 설정
+        const [temperature, setTemperature] = useRecoilState<number>(gptTamperature);
+        //top_p도 전역 설정
+        const [topP, setTopP] = useRecoilState<number>(gptTop_p);
+        //maximum_length도 전역 설정
+        const [maximumLength, setMaximumLength] = useRecoilState<number>(gptMaximumLength);
+        //frequency_penalty도 전역 설정
+        const [frequencyPenalty, setFrequencyPenalty] = useRecoilState<number>(gptFrequencyPenalty);
+        //presence_penalty도 전역 설정
+        const [presencePenalty, setPresencePenalty] = useRecoilState<number>(gptPresencePenalty);
+        //
+        const [selectedModel, setSelectedModel] = useRecoilState<string>(gptSelectedModel);
+        return <>
+        <section className="w-full pb-1 pt-2 px-2 border-b">
                     <Flex justifyContent="space-between" alignItems="center">
                         <h1 className="font-bold text-sm text-gray-600">create chatbot</h1>
                         <Menu>
@@ -209,9 +260,9 @@ export default function Gpt() {
                             >
                                 <Text fontSize="sm">Model</Text>
                             </Tooltip>
-                            <Select className="border-2 rounded-md" name="model" onChange={handleChangeSelect}>
+                            <Select className="border-2 rounded-md" name="model" value={selectedModel} onChange={(e) => {setSelectedModel(e.target.value)}}>
                                 <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-                                <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>z
+                                <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
                                 <option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</option>
                                 <option value="gpt-3.5-turbo-16k-0613">gpt-3.5-turbo-16k-0613</option>
                             </Select>
@@ -491,7 +542,5 @@ export default function Gpt() {
                         내 챗봇 게시하기
                     </Button>
                 </section>
-            </div>
-        </div>
-    );
+    </>
 }

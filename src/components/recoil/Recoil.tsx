@@ -44,6 +44,11 @@ export const gptPresencePenalty = atom<number>({
     default: 0,
 });
 
+export const gptSelectedModel = atom<string>({
+    key: "gptModel",
+    default: 'gpt-3.5-turbo'
+})
+
 //gpt image 답변 상태 저장
 export const gptImage = atom<Array<any>>({
     key: "gptImageState",
