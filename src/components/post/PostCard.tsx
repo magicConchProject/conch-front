@@ -24,7 +24,7 @@ export default function PostCard({ title, postDate, writer, views }: Props) {
                 <Stack spacing="1">
                     <Box>
                         <Flex alignItems="center" gap={2}>
-                            <Text fontSize="md" color="teal" as="b">
+                            <Text fontSize="md" as="b">
                                 {title}
                             </Text>
                         </Flex>

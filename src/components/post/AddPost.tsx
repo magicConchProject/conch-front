@@ -11,8 +11,9 @@ import { toast } from "react-hot-toast";
 import { addPost } from "@/api/post";
 import { useParams } from "next/navigation";
 import usePost from "@/data/use-post";
+import { Button } from "@chakra-ui/react";
 
-export default function AddPost({page, limit} : {page: number, limit: number}) {
+export default function AddPost({ page, limit }: { page: number; limit: number }) {
     const params = useParams();
     const group_id = params.group;
 
@@ -47,7 +48,9 @@ export default function AddPost({page, limit} : {page: number, limit: number}) {
                     <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
                         <CustomInput labelName="제목 입력" register={register} label="title" />
                         <HtmlEditor getChange={getChange} />
-                        <SubmitButton name="등록하기" />
+                        <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
+                            등록하기
+                        </Button>
                     </form>
                 </Modal>
             )}

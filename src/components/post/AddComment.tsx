@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { addComment } from "@/api/comment";
 import { useParams } from "next/navigation";
 import useComment from "@/data/use-comment";
+import { Button } from "@chakra-ui/react";
 
 export default function AddComment() {
     const [modalOpen, setModalOpen] = useState(false);
@@ -26,12 +27,14 @@ export default function AddComment() {
     }
     const submit: SubmitHandler<any> = (data) => {
         toast.promise(
-            addComment({ comment: htmlValue, post_id }).then(() => {
-                mutate();
-                setModalOpen(false);
-            }).catch((err) => {
-                throw new Error(err)
-            }),
+            addComment({ comment: htmlValue, post_id })
+                .then(() => {
+                    mutate();
+                    setModalOpen(false);
+                })
+                .catch((err) => {
+                    throw new Error(err);
+                }),
             {
                 loading: "Loading",
                 success: () => "댓글 생성 성공",
@@ -42,16 +45,21 @@ export default function AddComment() {
 
     return (
         <>
-            <CustomButton onClick={() => setModalOpen(true)} name="댓글 추가" />
+            <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
+                <HtmlEditor getChange={getChange} />
+                <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
+                    등록하기
+                </Button>
+            </form>
 
-            {modalOpen && (
+            {/* {modalOpen && (
                 <Modal open={modalOpen} setOpen={(open) => setModalOpen(open)} title="댓글 달기" maxWidth="max-w-[52rem]">
                     <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
                         <HtmlEditor getChange={getChange} />
                         <SubmitButton name="등록하기" />
                     </form>
                 </Modal>
-            )}
+            )} */}
         </>
     );
 }

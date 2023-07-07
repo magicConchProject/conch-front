@@ -11,6 +11,9 @@ import Modal from "../common/Modal";
 import HtmlEditor from "../common/HtmlEditor";
 import SubmitButton from "../common/SubmitButton";
 import { SubmitHandler, useForm } from "react-hook-form";
+import EditIcon from "../icons/EditIcon";
+import DeleteIcon from "../icons/DeleteIcon";
+import { Card, CardBody } from "@chakra-ui/react";
 
 type Props = {
     comment: string;
@@ -74,34 +77,36 @@ export default function CommentCard({ commentid, comment, commentDate, username,
     };
 
     return (
-        <article className="rounded-md p-3 bg-neutral-50 flex items-center">
-            <div className="flex-1">
-                <section className="flex justify-between items-center">
-                    <div>
-                        <h1 className="font-bold mb-1">{username}</h1>
-                        <p className="text-gray-400 text-xs">{moment(commentDate).format("YYYY-MM-DD")}</p>
-                    </div>
-                    {isEditable == true && (
-                        <div className="flex gap-3">
-                            <button onClick={() => setModalOpen(true)} className="text-yellow-500 hover:text-yellow-600 font-bold text-sm">
-                                수정하기
-                            </button>
-                            <button
-                                onClick={() => {
-                                    deleteMyComment(commentid);
-                                }}
-                                className="text-red-500 hover:text-red-600 font-bold text-sm"
-                            >
-                                삭제하기
-                            </button>
+        <Card>
+            <CardBody p="2">
+                <div className="flex-1">
+                    <section className="flex justify-between items-center">
+                        <div>
+                            <h1 className="font-bold mb-1">{username}</h1>
+                            <p className="text-gray-400 text-xs">{moment(commentDate).format("YYYY-MM-DD")}</p>
                         </div>
-                    )}
-                </section>
+                        {isEditable == true && (
+                            <div className="flex gap-3">
+                                <button onClick={() => setModalOpen(true)} className="text-teal-600 hover:text-teal-700">
+                                    <EditIcon />
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        deleteMyComment(commentid);
+                                    }}
+                                    className="text-gray-600 hover:text-gary-700 font-bold text-sm"
+                                >
+                                    <DeleteIcon />
+                                </button>
+                            </div>
+                        )}
+                    </section>
 
-                <section className="border-2 rounded-md mt-3">
-                    <HtmlViewer text={comment} />
-                </section>
-            </div>
+                    <section className="border-2 rounded-md mt-3">
+                        <HtmlViewer text={comment} />
+                    </section>
+                </div>
+            </CardBody>
 
             {modalOpen && (
                 <Modal open={modalOpen} setOpen={(open) => setModalOpen(open)} title="댓글 달기" maxWidth="max-w-[52rem]">
@@ -111,6 +116,6 @@ export default function CommentCard({ commentid, comment, commentDate, username,
                     </form>
                 </Modal>
             )}
-        </article>
+        </Card>
     );
 }

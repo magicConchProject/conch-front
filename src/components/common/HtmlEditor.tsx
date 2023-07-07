@@ -64,7 +64,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("paragraph") ? is_active : is_not_active}
             >
-                <ParagraphIcon/>
+                <ParagraphIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -73,7 +73,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 1 }) ? is_active : is_not_active}
             >
-                <Heading1Icon/>
+                <Heading1Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -82,7 +82,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 2 }) ? is_active : is_not_active}
             >
-                <Heading2Icon/>
+                <Heading2Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -91,7 +91,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 3 }) ? is_active : is_not_active}
             >
-                <Heading3Icon/>
+                <Heading3Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -100,7 +100,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 4 }) ? is_active : is_not_active}
             >
-                <Heading4Icon/>
+                <Heading4Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -109,7 +109,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 5 }) ? is_active : is_not_active}
             >
-                <Heading5Icon/>
+                <Heading5Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -118,7 +118,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("heading", { level: 6 }) ? is_active : is_not_active}
             >
-                <Heading6Icon/>
+                <Heading6Icon />
             </button>
             <button
                 onClick={(e) => {
@@ -128,7 +128,7 @@ const MenuBar = ({ editor }: any) => {
                 disabled={!editor.can().chain().focus().toggleBold().run()}
                 className={editor.isActive("bold") ? is_active : is_not_active}
             >
-                <BoldIcon/>
+                <BoldIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -138,7 +138,7 @@ const MenuBar = ({ editor }: any) => {
                 disabled={!editor.can().chain().focus().toggleItalic().run()}
                 className={editor.isActive("italic") ? is_active : is_not_active}
             >
-                <ItalicIcon/>
+                <ItalicIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -148,7 +148,7 @@ const MenuBar = ({ editor }: any) => {
                 disabled={!editor.can().chain().focus().toggleStrike().run()}
                 className={editor.isActive("strike") ? is_active : is_not_active}
             >
-                <StrikeIcon/>
+                <StrikeIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -158,7 +158,7 @@ const MenuBar = ({ editor }: any) => {
                 disabled={!editor.can().chain().focus().toggleCode().run()}
                 className={editor.isActive("code") ? is_active : is_not_active}
             >
-                <CodeIcon/>
+                <CodeIcon />
             </button>
 
             <button
@@ -168,7 +168,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("bulletList") ? is_active : is_not_active}
             >
-                <BulletListIcon/>
+                <BulletListIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -177,7 +177,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("orderedList") ? is_active : is_not_active}
             >
-                <OrderedListIcon/>
+                <OrderedListIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -186,7 +186,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("codeBlock") ? is_active : is_not_active}
             >
-                <CodeBlockIcon/>
+                <CodeBlockIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -195,7 +195,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("blockquote") ? is_active : is_not_active}
             >
-                <BlockquoteIcon/>
+                <BlockquoteIcon />
             </button>
             <button
                 onClick={(e) => {
@@ -204,7 +204,7 @@ const MenuBar = ({ editor }: any) => {
                 }}
                 className={editor.isActive("textStyle", { color: "#958DF1" }) ? is_active : is_not_active}
             >
-                <TextColorPurpleIcon/>
+                <TextColorPurpleIcon />
             </button>
             <button
                 className={is_not_active}
@@ -213,7 +213,7 @@ const MenuBar = ({ editor }: any) => {
                     return editor.chain().focus().setHorizontalRule().run();
                 }}
             >
-                <HorizontalRuleIcon/>
+                <HorizontalRuleIcon />
             </button>
             <button
                 className={is_not_active}
@@ -222,7 +222,7 @@ const MenuBar = ({ editor }: any) => {
                     return editor.chain().focus().setHardBreak().run();
                 }}
             >
-                <HardBreakIcon/>
+                <HardBreakIcon />
             </button>
             <button
                 className={is_not_active}
@@ -231,7 +231,7 @@ const MenuBar = ({ editor }: any) => {
                     return editor.chain().focus().unsetAllMarks().run();
                 }}
             >
-                <ClearMarkIcon/>
+                <ClearMarkIcon />
             </button>
             <button
                 className={is_not_active}
@@ -240,31 +240,33 @@ const MenuBar = ({ editor }: any) => {
                     return editor.chain().focus().clearNodes().run();
                 }}
             >
-                <ClearNodeIcon/>
+                <ClearNodeIcon />
             </button>
             <button
                 className={is_not_active}
                 onClick={(e) => {
                     e.preventDefault();
-                    return editor.chain().focus().undo().run()}}
+                    return editor.chain().focus().undo().run();
+                }}
                 disabled={!editor.can().chain().focus().undo().run()}
             >
-                <UndoIcon/>
+                <UndoIcon />
             </button>
             <button
                 className={is_not_active}
                 onClick={(e) => {
                     e.preventDefault();
-                    return editor.chain().focus().redo().run()}}
+                    return editor.chain().focus().redo().run();
+                }}
                 disabled={!editor.can().chain().focus().redo().run()}
             >
-                <RedoIcon/>
+                <RedoIcon />
             </button>
         </div>
     );
 };
 
-export default function MarkdownEditor({ getChange, content = '' }: Props) {
+export default function MarkdownEditor({ getChange, content = "" }: Props) {
     const editor = useEditor({
         extensions: [
             Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -299,7 +301,7 @@ export default function MarkdownEditor({ getChange, content = '' }: Props) {
     return (
         <div>
             <MenuBar editor={editor} />
-            <div className="border-2 rounded-md min-h-[400px]">
+            <div className="border-2">
                 <EditorContent className={Style.ProseMirror} editor={editor} />
             </div>
         </div>

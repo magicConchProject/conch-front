@@ -7,6 +7,7 @@ import SubmitButton from "@/components/common/SubmitButton";
 import LayoutContainer from "@/components/containers/LayoutContainer";
 import useGroup from "@/data/use-group";
 import useTag from "@/data/use-tag";
+import { Button, Card } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -44,11 +45,14 @@ export default function PostAdd() {
     };
 
     return (
-        <div className="bg-slate-200 w-full flex-1 relative">
+        <div className="w-full flex-1 relative">
             <div className="absolute h-full overflow-auto w-full flex justify-center">
                 <LayoutContainer>
                     <div className="pb-2">
-                        <div className="bg-white p-2 rounded-md">
+                        <div className="flex gap-2 mb-3 items-center justify-between">
+                            <div className="font-bold">포스트 추가</div>
+                        </div>
+                        <div>
                             <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
                                 <CustomInput labelName="제목 입력" register={register} label="title" />
 
@@ -76,8 +80,13 @@ export default function PostAdd() {
                                             ))}
                                     </div>
                                 </div>
-                                <HtmlEditor getChange={getChange} />
-                                <SubmitButton name="등록하기" />
+                                <Card>
+                                    <HtmlEditor getChange={getChange} />
+                                </Card>
+
+                                <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
+                                    등록하기
+                                </Button>
                             </form>
                         </div>
                     </div>
