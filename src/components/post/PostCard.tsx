@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import moment from "moment";
-import EyeIcon from "../icons/EyeIcon";
-import WriterIcon from "../icons/WriterIcon";
-import { Box, Card, CardBody, Flex, Stack, Text } from "@chakra-ui/react";
+import moment from 'moment';
+import EyeIcon from '../icons/EyeIcon';
+import WriterIcon from '../icons/WriterIcon';
+import { Box, Card, CardBody, Flex, Stack, Text } from '@chakra-ui/react';
 
 type Props = {
     title: string;
@@ -15,10 +15,12 @@ type Props = {
 export default function PostCard({ title, postDate, writer, views }: Props) {
     return (
         <Card
-            transition="box-shadow 0.3s"
+            transition="background 0.3s"
             _hover={{
-                boxShadow: "lg",
+                background: 'rgba(0,0,0,0.08)',
             }}
+            rounded={'none'}
+            shadow={'none'}
         >
             <CardBody p="2">
                 <Stack spacing="1">
@@ -32,17 +34,17 @@ export default function PostCard({ title, postDate, writer, views }: Props) {
                     <Box>
                         <Flex gap={2}>
                             <Text fontSize="xs" color="gray">
-                                <Flex alignItems={"center"} gap={1}>
-                                    {moment(postDate).format("YYYY-MM-DD")}
+                                <Flex alignItems={'center'} gap={1}>
+                                    {moment(postDate).format('YYYY-MM-DD')}
                                 </Flex>
                             </Text>
                             <Text fontSize="xs" color="gray">
-                                <Flex alignItems={"center"} gap={1}>
+                                <Flex alignItems={'center'} gap={1}>
                                     <WriterIcon /> {writer}
                                 </Flex>
                             </Text>
                             <Text fontSize="xs" color="gray">
-                                <Flex alignItems={"center"} gap={1}>
+                                <Flex alignItems={'center'} gap={1}>
                                     <EyeIcon /> {views}
                                 </Flex>
                             </Text>

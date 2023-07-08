@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import usePostDetail from "@/data/use-postDetail";
-import { useParams, useRouter } from "next/navigation";
-import HtmlViewer from "../common/HtmlViewer";
-import moment from "moment";
-import { useEffect } from "react";
-import { deletePost, plusView } from "@/api/post";
-import BackIcon from "../icons/BackIcon";
-import Link from "next/link";
-import toast from "react-hot-toast";
-import { Card } from "@chakra-ui/react";
-import EditIcon from "../icons/EditIcon";
-import DeleteIcon from "../icons/DeleteIcon";
+import usePostDetail from '@/data/use-postDetail';
+import { useParams, useRouter } from 'next/navigation';
+import HtmlViewer from '../common/HtmlViewer';
+import moment from 'moment';
+import { useEffect } from 'react';
+import { deletePost, plusView } from '@/api/post';
+import BackIcon from '../icons/BackIcon';
+import Link from 'next/link';
+import toast from 'react-hot-toast';
+import { Card } from '@chakra-ui/react';
+import EditIcon from '../icons/EditIcon';
+import DeleteIcon from '../icons/DeleteIcon';
 
 export default function PostDetail() {
     const router = useRouter();
@@ -22,7 +22,7 @@ export default function PostDetail() {
         plusView(Number(params.post)).then((res) => {
             mutate();
         });
-    }, []);
+    }, [mutate, params.post]);
 
     function thisDeletePost() {
         toast
@@ -31,8 +31,8 @@ export default function PostDetail() {
                     throw new Error(err);
                 }),
                 {
-                    loading: "Loading",
-                    success: () => "포스트를 삭제했습니다",
+                    loading: 'Loading',
+                    success: () => '포스트를 삭제했습니다',
                     error: (err) => `${err.toString()}`,
                 }
             )
@@ -55,10 +55,16 @@ export default function PostDetail() {
                 </div>
                 {isEditable && (
                     <div className="flex gap-3 items-center">
-                        <Link href={`/postedit/${params.group}/${params.post}`} className="text-teal-600 hover:text-teal-700">
+                        <Link
+                            href={`/postedit/${params.group}/${params.post}`}
+                            className="text-teal-600 hover:text-teal-700"
+                        >
                             <EditIcon />
                         </Link>
-                        <button onClick={thisDeletePost} className="text-gray-600 hover:text-gary-700 font-bold text-sm">
+                        <button
+                            onClick={thisDeletePost}
+                            className="text-gray-600 hover:text-gary-700 font-bold text-sm"
+                        >
                             <DeleteIcon />
                         </button>
                     </div>
@@ -68,9 +74,11 @@ export default function PostDetail() {
                 {!loading && (
                     <Card>
                         <section className="pt-3 px-2">
-                            <h1 className="text-2xl px-3 font-bold text-gray-700 mb-3">{post.title}</h1>
+                            <h1 className="text-2xl px-3 font-bold text-teal-700 mb-3">{post.title}</h1>
                             <p className="px-3 text-gray-400 text-xs">작성자: {post.user.name}</p>
-                            <p className="px-3 text-gray-400 text-xs">작성일: {moment(post.postDate).format("YYYY-MM-DD")}</p>
+                            <p className="px-3 text-gray-400 text-xs">
+                                작성일: {moment(post.postDate).format('YYYY-MM-DD')}
+                            </p>
                             <p className="px-3 text-gray-400 text-xs">조회수: {post.views}</p>
                         </section>
                         <section>

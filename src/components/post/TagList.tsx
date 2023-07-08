@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import useTag from "@/data/use-tag";
-import { useParams } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
+import useTag from '@/data/use-tag';
+import { useParams } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
     tag: any;
@@ -18,8 +18,8 @@ export default function TagList({ tag, setTag }: Props) {
         <div className="flex gap-2">
             <div
                 onClick={() => setTag(null)}
-                className={`text-sm p-1 px-2 bg-[#EFEFEE] rounded-lg cursor-pointer
-                    ${tag == null ? "bg-teal-600 text-white" : "bg-[#EFEFEE]"}`}
+                className={`text-sm p-1 px-2 rounded-lg cursor-pointer
+                    ${tag == null ? 'bg-teal-600 text-white' : 'hover:bg-[#EFEFEE]'}`}
             >
                 all
             </div>
@@ -27,8 +27,8 @@ export default function TagList({ tag, setTag }: Props) {
                 tags.map((data: any, index: number) => (
                     <div
                         onClick={() => setTag(data.id)}
-                        className={`text-sm p-1 px-2 bg-[#EFEFEE] rounded-lg cursor-pointer
-                    ${tag == data.id ? "bg-teal-600 text-white" : "bg-[#EFEFEE]"}`}
+                        className={`text-sm p-1 px-2 rounded-lg cursor-pointer
+                    ${tag == data.id ? 'bg-teal-600 text-white' : 'hover:bg-[#EFEFEE]'}`}
                         key={data.id}
                     >
                         {data.name}

@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { editPost } from "@/api/post";
-import CustomInput from "@/components/common/CustomInput";
-import HtmlEditor from "@/components/common/HtmlEditor";
-import SubmitButton from "@/components/common/SubmitButton";
-import LayoutContainer from "@/components/containers/LayoutContainer";
-import usePostDetail from "@/data/use-postDetail";
-import useTag from "@/data/use-tag";
-import { Button, Card } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { editPost } from '@/api/post';
+import CustomInput from '@/components/common/CustomInput';
+import HtmlEditor from '@/components/common/HtmlEditor';
+import SubmitButton from '@/components/common/SubmitButton';
+import LayoutContainer from '@/components/containers/LayoutContainer';
+import usePostDetail from '@/data/use-postDetail';
+import useTag from '@/data/use-tag';
+import { Button, Card } from '@chakra-ui/react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export default function PostEdit() {
     const router = useRouter();
@@ -26,13 +26,13 @@ export default function PostEdit() {
 
     useEffect(() => {
         if (isEditable == false) {
-            toast.error("포스트를 수정할 권한이 없습니다.");
-            router.replace("/");
+            toast.error('포스트를 수정할 권한이 없습니다.');
+            router.replace('/');
         }
     }, [isEditable, router]);
 
     //html 에디터 변경 사항 체크
-    let htmlValue = "";
+    let htmlValue = '';
     function getChange(value: any) {
         if (value) htmlValue = value;
     }
@@ -44,8 +44,8 @@ export default function PostEdit() {
                     throw new Error(err);
                 }),
                 {
-                    loading: "Loading",
-                    success: () => "포스트 수정 성공",
+                    loading: 'Loading',
+                    success: () => '포스트 수정 성공',
                     error: (err) => `${err.toString()}`,
                 }
             )
@@ -74,12 +74,11 @@ export default function PostEdit() {
                                         setValue={setValue}
                                     />
                                     <div>
-                                        <label className="text-sm mb-1 text-gray-500">태그 지정</label>
                                         <div className="flex gap-2">
                                             <div
                                                 onClick={() => setNowTag(null)}
-                                                className={`text-sm p-1 px-2 rounded-lg ${
-                                                    nowTag == null ? "bg-neutral-600 text-white" : "bg-neutral-100"
+                                                className={`text-sm p-1 px-2 rounded-lg cursor-pointer ${
+                                                    nowTag == null ? 'bg-teal-600 text-white' : 'hover:bg-[#EFEFEE]'
                                                 }`}
                                             >
                                                 ALL
@@ -88,8 +87,12 @@ export default function PostEdit() {
                                                 tags.map((data: any, index: number) => (
                                                     <div
                                                         onClick={() => setNowTag(data.id)}
-                                                        className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                                    ${nowTag == data.id ? "bg-neutral-600 text-white" : "bg-neutral-100"}`}
+                                                        className={`text-sm p-1 px-2 rounded-lg cursor-pointer
+                                                    ${
+                                                        nowTag == data.id
+                                                            ? 'bg-teal-600 text-white'
+                                                            : 'hover:bg-[#EFEFEE]'
+                                                    }`}
                                                         key={data.id}
                                                     >
                                                         {data.name}

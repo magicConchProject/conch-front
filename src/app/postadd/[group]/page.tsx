@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { addPost } from "@/api/post";
-import CustomInput from "@/components/common/CustomInput";
-import HtmlEditor from "@/components/common/HtmlEditor";
-import SubmitButton from "@/components/common/SubmitButton";
-import LayoutContainer from "@/components/containers/LayoutContainer";
-import useGroup from "@/data/use-group";
-import useTag from "@/data/use-tag";
-import { Button, Card } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { addPost } from '@/api/post';
+import CustomInput from '@/components/common/CustomInput';
+import HtmlEditor from '@/components/common/HtmlEditor';
+import SubmitButton from '@/components/common/SubmitButton';
+import LayoutContainer from '@/components/containers/LayoutContainer';
+import useGroup from '@/data/use-group';
+import useTag from '@/data/use-tag';
+import { Button, Card } from '@chakra-ui/react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export default function PostAdd() {
     //현재 파라미터 가져오기
@@ -23,7 +23,7 @@ export default function PostAdd() {
     const { mutate } = useGroup();
 
     //html 에디터 변경 사항 체크
-    let htmlValue = "";
+    let htmlValue = '';
     function getChange(value: any) {
         if (value) htmlValue = value;
     }
@@ -34,8 +34,8 @@ export default function PostAdd() {
     const submit: SubmitHandler<any> = (data) => {
         toast
             .promise(addPost({ ...data, contents: htmlValue, group_id, tag_id: nowTag }), {
-                loading: "Loading",
-                success: () => "포스팅 성공",
+                loading: 'Loading',
+                success: () => '포스팅 성공',
                 error: (err) => `${err.toString()}`,
             })
             .then((res) => {
@@ -57,12 +57,12 @@ export default function PostAdd() {
                                 <CustomInput labelName="제목 입력" register={register} label="title" />
 
                                 <div>
-                                    <label className="text-sm mb-1 text-gray-500">태그 지정</label>
                                     <div className="flex gap-2">
                                         <div
                                             onClick={() => setNowTag(null)}
-                                            className={`text-sm p-1 px-2 rounded-lg ${
-                                                nowTag == null ? "bg-neutral-600 text-white" : "bg-neutral-100"
+                                            className={`text-sm p-1 px-2 rounded-lg cursor-pointer ${
+                                                nowTag == null ? 'bg-teal-600 text-white' : 'hover:bg-[#EFEFEE]'
+                                            }'
                                             }`}
                                         >
                                             ALL
@@ -71,8 +71,13 @@ export default function PostAdd() {
                                             tags.map((data: any, index: number) => (
                                                 <div
                                                     onClick={() => setNowTag(data.id)}
-                                                    className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                                    ${nowTag == data.id ? "bg-neutral-600 text-white" : "bg-neutral-100"}`}
+                                                    className={`text-sm p-1 px-2 rounded-lg cursor-pointer 
+                                                    ${
+                                                        nowTag == data.id
+                                                            ? 'bg-teal-600  text-white'
+                                                            : 'hover:bg-[#EFEFEE]'
+                                                    }'
+                                                    }`}
                                                     key={data.id}
                                                 >
                                                     {data.name}
@@ -80,9 +85,8 @@ export default function PostAdd() {
                                             ))}
                                     </div>
                                 </div>
-                                
+
                                 <HtmlEditor getChange={getChange} />
-                                
 
                                 <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
                                     등록하기

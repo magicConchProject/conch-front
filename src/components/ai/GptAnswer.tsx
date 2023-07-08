@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import useGroup from "@/data/use-group";
-import useUser from "@/data/use-user";
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { PulseLoader } from "react-spinners";
-import showdown from "showdown";
-import MarkdownViewer from "../common/MarkdownViewer";
+import useGroup from '@/data/use-group';
+import useUser from '@/data/use-user';
+import { useRouter } from 'next/navigation';
+import { useRef, useState } from 'react';
+import { PulseLoader } from 'react-spinners';
+import showdown from 'showdown';
+import MarkdownViewer from '../common/MarkdownViewer';
 // import Modal from "../common/Modal";
 import {
     Input,
@@ -18,17 +18,17 @@ import {
     ModalHeader,
     ModalOverlay,
     useDisclosure,
-} from "@chakra-ui/react";
-import SignButton from "../sign/SignButton";
-import toast from "react-hot-toast";
-import { addPost } from "@/api/post";
-import HtmlEditor from "../common/HtmlEditor";
-import CustomInput from "../common/CustomInput";
-import { useForm } from "react-hook-form";
-import SubmitButton from "../common/SubmitButton";
-import useTag from "@/data/use-tag";
-import { Button } from "@chakra-ui/react";
-import React from "react";
+} from '@chakra-ui/react';
+import SignButton from '../sign/SignButton';
+import toast from 'react-hot-toast';
+import { addPost } from '@/api/post';
+import HtmlEditor from '../common/HtmlEditor';
+import CustomInput from '../common/CustomInput';
+import { useForm } from 'react-hook-form';
+import SubmitButton from '../common/SubmitButton';
+import useTag from '@/data/use-tag';
+import { Button } from '@chakra-ui/react';
+import React from 'react';
 type Props = {
     A: any;
     concept: string;
@@ -62,8 +62,8 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                         console.log(err);
                     }),
                     {
-                        loading: "Loading",
-                        success: () => "포스팅 성공",
+                        loading: 'Loading',
+                        success: () => '포스팅 성공',
                         error: (err) => `${err.toString()}`,
                     }
                 )
@@ -72,11 +72,11 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                     router.push(`/post/${selectedGroup.group.id}/${res.id}`);
                 });
         } else {
-            toast.error("포스팅할 그룹을 지정해 주세요");
+            toast.error('포스팅할 그룹을 지정해 주세요');
         }
     }
 
-    let htmlValue = "";
+    let htmlValue = '';
     function getChange(value: any) {
         if (value) htmlValue = value;
     }
@@ -84,13 +84,13 @@ export default function GtpAnswer({ A, concept, model }: Props) {
     return (
         <>
             <div className="flex">
-                {A.A === "loading" ? (
+                {A.A === 'loading' ? (
                     <div className={`flex bg-stone-100 p-3 px-3 max-w-[800px] rounded-lg ml-3 relative ${before}`}>
                         <PulseLoader color="#b9b9b9" size={7} speedMultiplier={0.5} />
                     </div>
                 ) : (
                     <div
-                        className={`flex bg-[#EFEFEE] p-2 px-3 lg:max-w-[800px] md:max-w-[650px] sm:max-w-[450px] rounded-lg ml-3 relative ${before} flex-col`}
+                        className={`flex bg-[#EFEFEE] p-2 px-3 lg:max-w-[750px] md:max-w-[500px] max-w-[450px] rounded-lg ml-3 relative ${before} flex-col`}
                     >
                         <section className="pb-2 border-b">
                             <MarkdownViewer data={A.A} />
@@ -107,7 +107,14 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                 )}
             </div>
 
-            <Modal onClose={onClose} finalFocusRef={btnRef} isOpen={isOpen} scrollBehavior="inside" size="3xl" isCentered>
+            <Modal
+                onClose={onClose}
+                finalFocusRef={btnRef}
+                isOpen={isOpen}
+                scrollBehavior="inside"
+                size="3xl"
+                isCentered
+            >
                 <ModalOverlay />
                 <form onSubmit={handleSubmit(Store)}>
                     <ModalContent>
@@ -124,8 +131,8 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                                     <div
                                                         className={`${
                                                             selectedGroup == data
-                                                                ? "bg-teal-500 hover:bg-teal-600 text-white"
-                                                                : "bg-neutral-200 hover:bg-neutral-300"
+                                                                ? 'bg-teal-500 hover:bg-teal-600 text-white'
+                                                                : 'bg-neutral-200 hover:bg-neutral-300'
                                                         } p-1 rounded-md text-sm cursor-pointer`}
                                                         onClick={() => {
                                                             setSelectedGroup(data);
@@ -141,16 +148,16 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                 <div className="flex gap-2 mb-2">
                                     {selectedGroup && tags && (
                                         <>
-                                            {" "}
+                                            {' '}
                                             <div
                                                 onClick={() => {
                                                     setSelectedTag(null);
                                                 }}
                                                 className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                    ${selectedTag == null ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                    ${selectedTag == null ? 'bg-neutral-600 text-white' : 'bg-white'}`}
                                             >
                                                 not choice
-                                            </div>{" "}
+                                            </div>{' '}
                                             {tags.map((data: any) => (
                                                 <div
                                                     onClick={() => {
@@ -158,7 +165,7 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                                     }}
                                                     key={data.id}
                                                     className={`text-sm p-1 px-2 bg-neutral-100 rounded-lg 
-                                    ${selectedTag == data.id ? "bg-neutral-600 text-white" : "bg-white"}`}
+                                    ${selectedTag == data.id ? 'bg-neutral-600 text-white' : 'bg-white'}`}
                                                 >
                                                     {data.name}
                                                 </div>
@@ -172,7 +179,7 @@ export default function GtpAnswer({ A, concept, model }: Props) {
                                     required
                                     type="text"
                                     placeholder="제목 입력"
-                                    {...register("title", { required: true })}
+                                    {...register('title', { required: true })}
                                 />
                                 <HtmlEditor
                                     getChange={getChange}
