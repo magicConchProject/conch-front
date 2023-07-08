@@ -17,6 +17,8 @@ import PersonLightIcon from './icons/nav/PersonLightIcon';
 import PersonIcon from './icons/nav/PersonIcon';
 import SignOutIcon from './icons/nav/SignOutIcon';
 import { Tooltip } from '@chakra-ui/react';
+import SignUpIcon from './icons/nav/SignUpIcon';
+import SignInIcon from './icons/nav/SignInIcon';
 
 const menu = [
     { href: '/', name: 'lab', selected: <LabFilledIcon />, not_selected: <LabIcon /> },
@@ -72,13 +74,13 @@ export default function Navbar() {
                     ) : loggedOut ? (
                         <>
                             <li>
-                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signin">
-                                    sign in
+                                <Link className="cursor-pointer text-xs " href="/sign/signup">
+                                    <SignUpIcon />
                                 </Link>
                             </li>
                             <li>
-                                <Link className="cursor-pointer text-xs text-gray-400" href="/sign/signup">
-                                    sign up
+                                <Link className="cursor-pointer text-xs " href="/sign/signin">
+                                    <SignInIcon />
                                 </Link>
                             </li>
                         </>
