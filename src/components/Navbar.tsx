@@ -31,7 +31,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center px-6 py-2">
             <section className="flex gap-5 items-center ">
                 <div className="flex gap-1 items-center ">
-                    <Image priority={true} className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={25} height={25} />
+                    <Image priority={true} className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={25} height={25} sizes="(max-width: 768px) 25px, (max-width: 1200px) 27px, 30px"/>
                     {/* <h1 className="font-bold text-xs text-gray-500">마법의 소라고동</h1> */}
                 </div>
                 <nav>
