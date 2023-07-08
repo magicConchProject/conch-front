@@ -67,8 +67,8 @@ export default function PostDetail() {
             <div className="flex flex-col gap-3 my-4">
                 {!loading && (
                     <Card>
-                        <section className="pt-3">
-                            <h1 className="text-3xl px-3 font-bold text-gray-700 mb-3">{post.title}</h1>
+                        <section className="pt-3 px-2">
+                            <h1 className="text-2xl px-3 font-bold text-gray-700 mb-3">{post.title}</h1>
                             <p className="px-3 text-gray-400 text-xs">작성자: {post.user.name}</p>
                             <p className="px-3 text-gray-400 text-xs">작성일: {moment(post.postDate).format("YYYY-MM-DD")}</p>
                             <p className="px-3 text-gray-400 text-xs">조회수: {post.views}</p>

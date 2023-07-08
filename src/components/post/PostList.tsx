@@ -119,18 +119,18 @@ export default function PostList() {
                 <TagList tag={nowTag} setTag={setNowTag} />
             </div>
 
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between pb-2 items-center">
                 {!loading && (
                     <>
                         <form onSubmit={handleSubmit(submitSearch)}>
-                            <InputGroup size="md" variant={"none"}>
-                                <InputLeftElement width="4.5rem">
+                            <InputGroup size="md" >
+                                <InputLeftElement width="4.5rem" paddingLeft={3}>
                                     <select {...register("searchOption")} className="text-sm bg-[#EFEFEE] p-1 rounded-md">
                                         <option value="title">제목</option>
                                         <option value="name">작성자</option>
                                     </select>
                                 </InputLeftElement>
-                                <Input {...register("searchValue")} pl="4.8rem" pr="4.7rem" type="text" placeholder="검색어 입력" />
+                                <Input {...register("searchValue")} pl="5rem" pr="4.7rem" type="text" placeholder="검색어 입력" />
                                 <InputRightElement width="4.5rem">
                                     <Button h="1.75rem" size="sm" type="submit" colorScheme="teal">
                                         검색
@@ -139,12 +139,12 @@ export default function PostList() {
                             </InputGroup>
                         </form>
                         <div className="flex gap-2">
-                            <select className="mb-3 text-sm p-1 rounded-md bg-[#EFEFEE]" value={order} onChange={handleChangeOrder}>
+                            <select className="text-md p-1 rounded-md bg-[#EFEFEE]" value={order} onChange={handleChangeOrder}>
                                 <option value="postDate">등록일</option>
                                 <option value="views">조회수</option>
                             </select>
                             <select
-                                className="mb-3 p-1 rounded-md text-sm rounded-md bg-[#EFEFEE]"
+                                className="p-1 rounded-md text-md bg-[#EFEFEE]"
                                 value={limit}
                                 onChange={handleChangeSelect}
                             >

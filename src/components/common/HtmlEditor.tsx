@@ -46,9 +46,9 @@ lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 
-const is_active = "bg-gray-700 text-neutral-50 px-2 rounded-md py-1";
+const is_active = "bg-teal-600 text-neutral-50 px-2 rounded-md py-1";
 
-const is_not_active = "bg-gray-200 text-gray-700 px-2 rounded-md py-1";
+const is_not_active = "text-gray-700 px-2 rounded-md py-1 hover:bg-gray-100";
 
 const MenuBar = ({ editor }: any) => {
     if (!editor) {
@@ -56,7 +56,7 @@ const MenuBar = ({ editor }: any) => {
     }
 
     return (
-        <div className="flex gap-3 flex-wrap mb-2">
+        <div className="flex gap-2 flex-wrap ">
             <button
                 onClick={(e) => {
                     e.preventDefault();
@@ -299,9 +299,12 @@ export default function MarkdownEditor({ getChange, content = "" }: Props) {
     getChange(editor?.getHTML());
 
     return (
-        <div>
-            <MenuBar editor={editor} />
-            <div className="border-2">
+        <div className="border-2 border-gray-200 rounded-md">
+            <div className="border-b p-1">
+                <MenuBar editor={editor} />
+            </div>
+            
+            <div>
                 <EditorContent className={Style.ProseMirror} editor={editor} />
             </div>
         </div>

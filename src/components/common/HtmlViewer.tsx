@@ -60,7 +60,7 @@ export default function HtmlViewer({ text }: Props) {
     });    
     useEffect(() => {
         editor?.commands.setContent(text as Content);
-    }, [text]);
+    }, [editor?.commands, text]);
     return (
         <div>
             <EditorContent className={`${Style.ProseMirror}`} editor={editor} />

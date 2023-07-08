@@ -80,9 +80,9 @@ export default function PostAdd() {
                                             ))}
                                     </div>
                                 </div>
-                                <Card>
-                                    <HtmlEditor getChange={getChange} />
-                                </Card>
+                                
+                                <HtmlEditor getChange={getChange} />
+                                
 
                                 <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
                                     등록하기
