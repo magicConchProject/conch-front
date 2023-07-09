@@ -19,10 +19,13 @@ import SignOutIcon from './icons/nav/SignOutIcon';
 import { Tooltip } from '@chakra-ui/react';
 import SignUpIcon from './icons/nav/SignUpIcon';
 import SignInIcon from './icons/nav/SignInIcon';
+import StoreIcon from './icons/nav/StoreIcon';
+import StoreLignhtIcon from './icons/nav/StoreLightIcon';
 
 const menu = [
     { href: '/', name: 'lab', selected: <LabFilledIcon />, not_selected: <LabIcon /> },
     { href: '/post', name: 'post', selected: <PostFilledIcon />, not_selected: <PostOutlineIcon /> },
+    { href: '/store', name: 'store', selected: <StoreIcon />, not_selected: <StoreLignhtIcon /> },
 ];
 
 export default function Navbar() {

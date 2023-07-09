@@ -372,6 +372,7 @@ export function SettingComponent() {
                                 min={0}
                                 max={1}
                                 step={0.01}
+                                focusThumbOnChange={false}
                             >
                                 {/* <SliderMark value={0} mt="1" ml="-2.2" fontSize="sm">
                                         0
@@ -426,6 +427,7 @@ export function SettingComponent() {
                                 min={1}
                                 max={2048}
                                 step={1}
+                                focusThumbOnChange={false}
                             >
                                 {/* <SliderMark value={0} mt="1" ml="-2.2" fontSize="sm">
                                         0
@@ -480,6 +482,7 @@ export function SettingComponent() {
                                 onChange={(val) => {
                                     setFrequencyPenalty(val);
                                 }}
+                                focusThumbOnChange={false}
                             >
                                 {/* <SliderMark value={-2} mt="1" ml="-2.3" fontSize="sm">
                                         -2
@@ -532,6 +535,7 @@ export function SettingComponent() {
                                 max={2}
                                 step={0.01}
                                 onChange={(val) => setPresencePenalty(val)}
+                                focusThumbOnChange={false}
                             >
                                 {/* <SliderMark value={-2} mt="1" ml="-2.3" fontSize="sm">
                                         -2

@@ -20,6 +20,7 @@ import { addTag } from '@/api/tag';
 import TagSetting from './TagSetting';
 import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Select } from '@chakra-ui/react';
 import PlusIcon from '../icons/PlusIcon';
+import SearchIcon from '../icons/SearchIcon';
 
 export default function PostList() {
     const params = useParams();
@@ -123,30 +124,47 @@ export default function PostList() {
                 {!loading && (
                     <>
                         <form onSubmit={handleSubmit(submitSearch)} className="flex gap-2 items-center">
-                            <select
-                                {...register('searchOption')}
-                                className="text-sm bg-[#edf2f7] p-1 rounded-md outline-blue-500"
-                            >
-                                <option value="title">제목</option>
-                                <option value="name">작성자</option>
-                            </select>
+                            <InputGroup size="md">
+                                <InputLeftElement pl="0.1rem" width="4.5rem" h="2rem">
+                                    <select
+                                        {...register('searchOption')}
+                                        className="text-sm p-1 outline-blue-500 h-[1.9rem] rounded-tl-md rounded-bl-md"
+                                    >
+                                        <option value="title">제목</option>
+                                        <option value="name">작성자</option>
+                                    </select>
+                                </InputLeftElement>
 
-                            <Input
-                                size={'sm'}
-                                rounded={'md'}
-                                variant="filled"
-                                {...register('searchValue')}
-                                type="text"
-                                placeholder="검색어 입력"
-                            />
+                                <Input
+                                    size={'sm'}
+                                    rounded={'md'}
+                                    {...register('searchValue')}
+                                    type="text"
+                                    placeholder="검색어 입력"
+                                    pr="2rem"
+                                    pl="4.6rem"
+                                    pt="0"
+                                />
 
-                            <Button size="sm" type="submit" colorScheme="teal">
-                                검색
-                            </Button>
+                                <InputRightElement width="2.5rem" h="2rem">
+                                    <Button
+                                        size="sm"
+                                        type="submit"
+                                        h="1.9rem"
+                                        w="2.5rem"
+                                        borderTopLeftRadius={'none'}
+                                        borderEndStartRadius={'none'}
+                                    >
+                                        <div className="text-lg">
+                                            <SearchIcon />
+                                        </div>
+                                    </Button>
+                                </InputRightElement>
+                            </InputGroup>
                         </form>
                         <div className="flex gap-2">
                             <select
-                                className="text-md p-1 rounded-md bg-[#edf2f7] outline-blue-500"
+                                className="text-md p-1 rounded-md bg-[#edf2f7] outline-blue-500 h-[2rem]"
                                 value={order}
                                 onChange={handleChangeOrder}
                             >
@@ -154,7 +172,7 @@ export default function PostList() {
                                 <option value="views">조회수</option>
                             </select>
                             <select
-                                className="p-1 rounded-md text-md bg-[#edf2f7] outline-blue-500"
+                                className="p-1 rounded-md text-md bg-[#edf2f7] outline-blue-500 h-[2rem]"
                                 value={limit}
                                 onChange={handleChangeSelect}
                             >
