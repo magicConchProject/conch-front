@@ -77,8 +77,8 @@ export default function CommentCard({ commentid, comment, commentDate, username,
     };
 
     return (
-        <Card>
-            <CardBody p="2">
+        <Card shadow={"none"}>
+            <CardBody p="0">
                 <div className="flex-1">
                     <section className="flex justify-between items-center">
                         <div>
@@ -102,7 +102,7 @@ export default function CommentCard({ commentid, comment, commentDate, username,
                         )}
                     </section>
 
-                    <section className="border-2 rounded-md mt-3">
+                    <section>
                         <HtmlViewer text={comment} />
                     </section>
                 </div>

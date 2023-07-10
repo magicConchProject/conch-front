@@ -1,26 +1,26 @@
-'use client';
+"use client";
 
-import usePost from '@/data/use-post';
-import PostCard from './PostCard';
-import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import ReactPaginate from 'react-paginate';
-import { useState } from 'react';
-import BackIcon from '../icons/BackIcon';
-import CustomButton from '../common/CustomButton';
-import { searchGroup } from '@/api/group';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import TagList from './TagList';
-import useTag from '@/data/use-tag';
-import Modal from '../common/Modal';
-import CustomInput from '../common/CustomInput';
-import SubmitButton from '../common/SubmitButton';
-import toast from 'react-hot-toast';
-import { addTag } from '@/api/tag';
-import TagSetting from './TagSetting';
-import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Select } from '@chakra-ui/react';
-import PlusIcon from '../icons/PlusIcon';
-import SearchIcon from '../icons/SearchIcon';
+import usePost from "@/data/use-post";
+import PostCard from "./PostCard";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import ReactPaginate from "react-paginate";
+import { useState } from "react";
+import BackIcon from "../icons/BackIcon";
+import CustomButton from "../common/CustomButton";
+import { searchGroup } from "@/api/group";
+import { SubmitHandler, useForm } from "react-hook-form";
+import TagList from "./TagList";
+import useTag from "@/data/use-tag";
+import Modal from "../common/Modal";
+import CustomInput from "../common/CustomInput";
+import SubmitButton from "../common/SubmitButton";
+import toast from "react-hot-toast";
+import { addTag } from "@/api/tag";
+import TagSetting from "./TagSetting";
+import { Button, Input, InputGroup, InputLeftElement, InputRightElement, Select } from "@chakra-ui/react";
+import PlusIcon from "../icons/PlusIcon";
+import SearchIcon from "../icons/SearchIcon";
 
 export default function PostList() {
     const params = useParams();
@@ -28,13 +28,13 @@ export default function PostList() {
     const group_id = params.group;
     const [page, setPage] = useState(1);
     const [limit, setLimit] = useState(10);
-    const [order, setOrder] = useState('postDate');
-    const [searchOption, setSearchOption] = useState('title');
-    const [serachValue, setSearchValue] = useState('');
+    const [order, setOrder] = useState("postDate");
+    const [searchOption, setSearchOption] = useState("title");
+    const [serachValue, setSearchValue] = useState("");
 
     const [nowTag, setNowTag] = useState<number | null>(null);
 
-    const [select, setSelect] = useState('title');
+    const [select, setSelect] = useState("title");
 
     const { posts, total, mutate, loading, group_name, isManager } = usePost(
         group_id,
@@ -78,8 +78,8 @@ export default function PostList() {
     const submit: SubmitHandler<any> = (data) => {
         toast
             .promise(addTag({ group_id: Number(group_id), name: data.name }), {
-                loading: 'Loading',
-                success: () => '태그 생성 성공',
+                loading: "Loading",
+                success: () => "태그 생성 성공",
                 error: (err) => `${err.toString()}`,
             })
             .then((res) => {
@@ -94,7 +94,7 @@ export default function PostList() {
                 <div className="flex gap-2">
                     <button
                         onClick={() => {
-                            router.replace('/post');
+                            router.replace("/post");
                         }}
                     >
                         <BackIcon />
@@ -104,12 +104,15 @@ export default function PostList() {
                 </div>
 
                 {/* <AddPost page={page} limit={limit}/> */}
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
                     {isManager && <TagSetting />}
                     <Link href={`/postadd/${group_id}`}>
-                        <Button colorScheme="teal" size="sm">
-                            <PlusIcon />
-                            <p className="ml-1">새 포스트</p>
+                        <Button size="sm" variant="ghost">
+                            <div className="text-teal-600">
+                                <PlusIcon />
+                            </div>
+
+                            <p className="ml-1 text-teal-600">새 포스트</p>
                         </Button>
                     </Link>
                 </div>
@@ -127,7 +130,7 @@ export default function PostList() {
                             <InputGroup size="md">
                                 <InputLeftElement pl="0.1rem" width="4.5rem" h="2rem">
                                     <select
-                                        {...register('searchOption')}
+                                        {...register("searchOption")}
                                         className="text-sm p-1 outline-blue-500 h-[1.9rem] rounded-tl-md rounded-bl-md"
                                     >
                                         <option value="title">제목</option>
@@ -136,9 +139,9 @@ export default function PostList() {
                                 </InputLeftElement>
 
                                 <Input
-                                    size={'sm'}
-                                    rounded={'md'}
-                                    {...register('searchValue')}
+                                    size={"sm"}
+                                    rounded={"md"}
+                                    {...register("searchValue")}
                                     type="text"
                                     placeholder="검색어 입력"
                                     pr="2rem"
@@ -152,8 +155,9 @@ export default function PostList() {
                                         type="submit"
                                         h="1.9rem"
                                         w="2.5rem"
-                                        borderTopLeftRadius={'none'}
-                                        borderEndStartRadius={'none'}
+                                        borderTopLeftRadius={"none"}
+                                        borderEndStartRadius={"none"}
+                                        variant={"ghost"}
                                     >
                                         <div className="text-lg">
                                             <SearchIcon />
@@ -164,7 +168,7 @@ export default function PostList() {
                         </form>
                         <div className="flex gap-2">
                             <select
-                                className="text-md p-1 rounded-md bg-[#edf2f7] outline-blue-500 h-[2rem]"
+                                className="text-md p-1 rounded-md bg-none outline-blue-500 h-[2rem]"
                                 value={order}
                                 onChange={handleChangeOrder}
                             >
@@ -172,7 +176,7 @@ export default function PostList() {
                                 <option value="views">조회수</option>
                             </select>
                             <select
-                                className="p-1 rounded-md text-md bg-[#edf2f7] outline-blue-500 h-[2rem]"
+                                className="p-1 rounded-md text-md bg-none outline-blue-500 h-[2rem]"
                                 value={limit}
                                 onChange={handleChangeSelect}
                             >
@@ -193,20 +197,13 @@ export default function PostList() {
                         return (
                             <Link href={`/post/${group_id}/${data.id}`} key={data.id}>
                                 <li>
-                                    <PostCard
-                                        title={data.title}
-                                        postDate={data.postDate}
-                                        writer={data.user.name}
-                                        views={data.views}
-                                    />
+                                    <PostCard title={data.title} postDate={data.postDate} writer={data.user.name} views={data.views} />
                                 </li>
                             </Link>
                         );
                     })}
             </ul>
-            {!loading && posts.length > 0 && (
-                <div>{renderPagination(Math.ceil(total / limit), page, handlePageClick)}</div>
-            )}
+            {!loading && posts.length > 0 && <div>{renderPagination(Math.ceil(total / limit), page, handlePageClick)}</div>}
 
             {ModalOpen && (
                 <Modal open={ModalOpen} setOpen={(open) => setModalOpen(open)} title="새 태그 만들기">
@@ -232,21 +229,21 @@ export function renderPagination(totalPages: number, currentPage: number, handle
                 onPageChange={handlePageClick}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={5}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-                previousLabel={'<'}
-                nextLabel={'>'}
-                breakLabel={'...'}
-                breakClassName={'page-item'}
-                breakLinkClassName={'page-link'}
-                pageClassName={'page-item'}
-                pageLinkClassName={'page-link px-3 py-1'}
-                previousClassName={'font-bold rounded-md px-3 py-1'}
-                nextClassName={'font-bold rounded-md px-3 py-1'}
-                disabledClassName={'text-gray-400'}
-                activeLinkClassName={'bg-teal-600 text-white font-bold rounded-md px-3 py-1'}
-                previousLinkClassName={'text-gray-400'}
-                nextLinkClassName={'text-gray-400'}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                previousLabel={"<"}
+                nextLabel={">"}
+                breakLabel={"..."}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link px-3 py-1"}
+                previousClassName={"font-bold rounded-md px-3 py-1"}
+                nextClassName={"font-bold rounded-md px-3 py-1"}
+                disabledClassName={"text-gray-400"}
+                activeLinkClassName={"bg-teal-600 text-white font-bold rounded-md px-3 py-1"}
+                previousLinkClassName={"text-gray-400"}
+                nextLinkClassName={"text-gray-400"}
             />
         </div>
     );

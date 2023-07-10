@@ -94,9 +94,9 @@ export default function ParticipateButton() {
 
     return (
         <>
-            <Button colorScheme="teal" onClick={onOpen} size="sm">
+            <Button onClick={onOpen} size="sm" variant="ghost">
                 <IndoorIcon />
-                <p className="ml-1">새 그룹 참여</p>
+                <p className="ml-1 text-teal-600">새 그룹 참여</p>
             </Button>
 
             <Modal onClose={onClose} finalFocusRef={btnRef} isOpen={isOpen} scrollBehavior="inside" isCentered>

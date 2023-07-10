@@ -11,12 +11,12 @@ export default function CommentList() {
     const { comments, mutate, loading } = useComment(post_id);
 
     return (
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col divide-y divide-slate-200">
             {!loading &&
                 comments.length > 0 &&
                 comments.map((data: any, index: number) => {
                     return (
-                        <li key={data.comment_id}>
+                        <li key={data.comment_id} className="py-1">
                             <CommentCard
                                 comment={data.comment_comment}
                                 commentDate={data.comment_commentDate}

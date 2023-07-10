@@ -47,7 +47,7 @@ export default function AddComment() {
         <>
             <form className="flex flex-col gap-3" onSubmit={handleSubmit(submit)}>
                 <HtmlEditor getChange={getChange} />
-                <Button type="submit" colorScheme="teal" variant="solid" className="w-full">
+                <Button size="sm" type="submit" colorScheme="teal" variant="solid" className="w-full">
                     등록하기
                 </Button>
             </form>

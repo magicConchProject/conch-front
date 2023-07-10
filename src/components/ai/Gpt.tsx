@@ -1,5 +1,5 @@
-'use client';
-import { useRecoilState } from 'recoil';
+"use client";
+import { useRecoilState } from "recoil";
 import {
     gptConcept,
     gptFrequencyPenalty,
@@ -9,14 +9,14 @@ import {
     gptState,
     gptTamperature,
     gptTop_p,
-} from '../recoil/Recoil';
-import { useEffect, useRef, useState } from 'react';
-import Question from './Question';
-import GtpAnswer from './GptAnswer';
-import BottomSearchBox from './BottomSearchBox';
-import Modal from '../common/Modal';
-import { toast } from 'react-hot-toast';
-import io from 'socket.io-client';
+} from "../recoil/Recoil";
+import { useEffect, useRef, useState } from "react";
+import Question from "./Question";
+import GtpAnswer from "./GptAnswer";
+import BottomSearchBox from "./BottomSearchBox";
+import Modal from "../common/Modal";
+import { toast } from "react-hot-toast";
+import io from "socket.io-client";
 import {
     Button,
     Drawer,
@@ -50,9 +50,9 @@ import {
     Textarea,
     Tooltip,
     useDisclosure,
-} from '@chakra-ui/react';
-import MenuIcon from '../icons/MenuIcon';
-import React from 'react';
+} from "@chakra-ui/react";
+import MenuIcon from "../icons/MenuIcon";
+import React from "react";
 
 export default function Gpt() {
     //gpt 질문 이력 전역 state에 저장
@@ -81,14 +81,14 @@ export default function Gpt() {
 
     function Ask(ask: string) {
         setAvailable(false);
-        // const socket = io("http://localhost:8080");
-        const socket = io('https://limhogyun.com'); // WebSocket 서버 주소로 변경
-        if (ask != '') {
-            setGpt((state) => [...state, { role: 'user', content: ask }]);
-            setGpt((state) => [...state, { role: 'assistant', content: 'loading' }]);
-            socket.emit('gptChat', {
+        const socket = io("http://localhost:8080");
+        // const socket = io('https://limhogyun.com'); // WebSocket 서버 주소로 변경
+        if (ask != "") {
+            setGpt((state) => [...state, { role: "user", content: ask }]);
+            setGpt((state) => [...state, { role: "assistant", content: "loading" }]);
+            socket.emit("gptChat", {
                 model: selectedModel,
-                messages: [...gpt, { role: 'user', content: ask }],
+                messages: [...gpt, { role: "user", content: ask }],
                 concept,
                 temperature,
                 topP,
@@ -96,28 +96,28 @@ export default function Gpt() {
                 frequencyPenalty,
                 presencePenalty,
             });
-            socket.on('connect', () => {
-                console.log('WebSocket connected');
+            socket.on("connect", () => {
+                console.log("WebSocket connected");
                 // WebSocket 연결 성공 시 동작할 로직
             });
-            socket.on('gptResponse', (data) => {
+            socket.on("gptResponse", (data) => {
                 // console.log('Received gptResponse:', data);
                 // gptResponse 이벤트 수신 시 동작할 로직
                 setGpt((state) => {
                     let temp = [...state];
                     let myState = temp.pop();
-                    if (data == 'error') {
-                        toast.error('에러가 발생하였습니다. 나중에 다시 시도해 주세요');
+                    if (data == "error") {
+                        toast.error("에러가 발생하였습니다. 나중에 다시 시도해 주세요");
                         temp.pop();
                         socket.disconnect();
                         setAvailable(true);
                         return [...temp];
                     }
-                    if (myState.content == 'loading') {
-                        return [...temp, { role: 'assistant', content: data }];
+                    if (myState.content == "loading") {
+                        return [...temp, { role: "assistant", content: data }];
                     } else {
-                        if (data != '[DONE]') {
-                            return [...temp, { role: 'assistant', content: myState.content + data }];
+                        if (data != "[DONE]") {
+                            return [...temp, { role: "assistant", content: myState.content + data }];
                         } else {
                             socket.disconnect();
                             setAvailable(true);
@@ -145,12 +145,12 @@ export default function Gpt() {
                         {gpt &&
                             gpt.map((data, index) => {
                                 return (
-                                    <div key={index} style={{ whiteSpace: 'pre-line' }} className="mb-4">
-                                        {data['role'] === 'user' ? (
-                                            <Question Q={data['content']} />
+                                    <div key={index} style={{ whiteSpace: "pre-line" }} className="mb-4">
+                                        {data["role"] === "user" ? (
+                                            <Question Q={data["content"]} />
                                         ) : (
                                             <GtpAnswer
-                                                A={{ Q: gpt[index - 1]['content'], A: data['content'] }}
+                                                A={{ Q: gpt[index - 1]["content"], A: data["content"] }}
                                                 concept={concept}
                                                 model={selectedModel}
                                             />
@@ -226,11 +226,7 @@ export function SettingComponent() {
             <section className="flex-1 relative">
                 <div className="absolute h-full w-full overflow-auto px-2 flex flex-col gap-4">
                     <div>
-                        <Tooltip
-                            hasArrow
-                            label="대화를 하기 전 시스템이 알아야할 사전 지식을 입력합니다."
-                            placement="auto"
-                        >
+                        <Tooltip hasArrow label="대화를 하기 전 시스템이 알아야할 사전 지식을 입력합니다." placement="auto">
                             <Text fontSize="sm">Concept</Text>
                         </Tooltip>
                         <div className={`flex flex-col`}>
@@ -245,7 +241,7 @@ export function SettingComponent() {
                                     //     textareaRef.current?.scrollHeight && textareaRef.current.scrollHeight + 2,
                                     //     textareaHeight
                                     // );
-                                    e.target.style.height = 'auto';
+                                    e.target.style.height = "auto";
                                     e.target.style.height = `${e.target.scrollHeight + 2}px`;
 
                                     setConcept(e.target.value);
@@ -391,11 +387,7 @@ export function SettingComponent() {
                     </div>
                     <div>
                         <Flex justifyContent="space-between">
-                            <Tooltip
-                                hasArrow
-                                label="채팅 완성 시 생성할 토큰의 최대 개수를 지정할 수 있습니다."
-                                placement="auto"
-                            >
+                            <Tooltip hasArrow label="채팅 완성 시 생성할 토큰의 최대 개수를 지정할 수 있습니다." placement="auto">
                                 <Text fontSize="sm">Maximum length</Text>
                             </Tooltip>
                             <NumberInput
@@ -439,7 +431,7 @@ export function SettingComponent() {
                                     <SliderFilledTrack />
                                 </SliderTrack>
                                 <SliderThumb fontSize="sm" boxSize="32px">
-                                    {maximumLength}{' '}
+                                    {maximumLength}{" "}
                                 </SliderThumb>
                             </Slider>
                         </div>
@@ -555,7 +547,7 @@ export function SettingComponent() {
                 </div>
             </section>
             <section>
-                <Button sx={{ borderRadius: 'none' }} colorScheme="teal" variant="solid" className="w-full">
+                <Button sx={{ borderRadius: "none" }} colorScheme="teal" variant="solid" className="w-full">
                     내 챗봇 게시하기
                 </Button>
             </section>

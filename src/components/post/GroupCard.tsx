@@ -34,7 +34,7 @@ export default function GroupCard({ name, joined, memberCount, manager }: Props)
                     <Stack spacing="1">
                         <Box>
                             <Flex alignItems="center" gap={2}>
-                                <Text fontSize="lg" color="teal" as="b">
+                                <Text fontSize="md" as="b">
                                     {name}
                                 </Text>
                                 <>{joined ? "" : <LockIcon />}</>
