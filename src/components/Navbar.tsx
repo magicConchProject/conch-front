@@ -76,13 +76,13 @@ export default function Navbar() {
                     ) : loggedOut ? (
                         <>
                             <li>
-                                <Link className="cursor-pointer text-xs " href="/sign/signup">
-                                    <SignUpIcon />
+                                <Link className="cursor-pointer text-xs " href="/sign/signin">
+                                    sign in
                                 </Link>
                             </li>
                             <li>
-                                <Link className="cursor-pointer text-xs " href="/sign/signin">
-                                    <SignInIcon />
+                                <Link className="cursor-pointer text-xs " href="/sign/signup">
+                                    sign up
                                 </Link>
                             </li>
                         </>

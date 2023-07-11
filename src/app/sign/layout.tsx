@@ -9,7 +9,7 @@ export default function SignLayout({ children }: Props) {
     return (
         <div className=" w-full flex flex-col justify-center items-center">
             {/* <Image className="w-auto h-auto" src="/images/conch.png" alt="소라고동 이미지" width={40} height={40} /> */}
-            <ConchImg />
+            {/* <ConchImg /> */}
             <div className="w-96">{children}</div>
         </div>
     );

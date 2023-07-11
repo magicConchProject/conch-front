@@ -27,6 +27,8 @@ import {
     DrawerHeader,
     DrawerOverlay,
     Flex,
+    FocusLock,
+    FormLabel,
     IconButton,
     Input,
     Menu,
@@ -39,6 +41,11 @@ import {
     NumberInput,
     NumberInputField,
     NumberInputStepper,
+    Popover,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverContent,
+    PopoverTrigger,
     Select,
     Slider,
     SliderFilledTrack,
@@ -53,6 +60,8 @@ import {
 } from "@chakra-ui/react";
 import MenuIcon from "../icons/MenuIcon";
 import React from "react";
+import { getChatGptSetting, updateSetting } from "@/api/chatSetting";
+import { Form } from "react-hook-form";
 
 export default function Gpt() {
     //gpt 질문 이력 전역 state에 저장
@@ -204,6 +213,28 @@ export function SettingComponent() {
     const [presencePenalty, setPresencePenalty] = useRecoilState<number>(gptPresencePenalty);
     //
     const [selectedModel, setSelectedModel] = useRecoilState<string>(gptSelectedModel);
+
+    //세팅 값 저장하기
+    async function SaveGptSetting() {
+        const value = { concept, model: selectedModel, temperature, topP, maximumLength, frequencyPenalty, presencePenalty };
+        await updateSetting(value);
+    }
+
+    //세팅 값 불러오기
+    async function getGptSetting() {
+        const value = await getChatGptSetting();
+        setConcept(value.concept);
+        setTemperature(value.temperature);
+        setTopP(value.topP);
+        setMaximumLength(value.maximumLength);
+        setFrequencyPenalty(value.frequencyPenalty);
+        setPresencePenalty(value.presencePenalty);
+        setSelectedModel(value.model);
+    }
+
+    //popover 창 띄우기 닫기
+    const { onOpen, onClose, isOpen } = useDisclosure();
+
     return (
         <>
             <section className="w-full pb-1 pt-2 px-2 border-b">
@@ -212,10 +243,22 @@ export function SettingComponent() {
                     <Menu>
                         <MenuButton as={IconButton} aria-label="Options" icon={<MenuIcon />} variant="outline" />
                         <MenuList>
-                            <MenuItem>내 설정 불러오기</MenuItem>
-                            <MenuItem>설정 초기화</MenuItem>
+                            <MenuItem onClick={getGptSetting}>내 설정 불러오기</MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    setConcept("");
+                                    setTemperature(1);
+                                    setTopP(1);
+                                    setMaximumLength(512);
+                                    setFrequencyPenalty(0);
+                                    setPresencePenalty(0);
+                                    setSelectedModel("gpt-3.5-turbo");
+                                }}
+                            >
+                                설정 초기화
+                            </MenuItem>
                             <MenuDivider />
-                            <MenuItem>이 설정 저장하기</MenuItem>
+                            <MenuItem onClick={SaveGptSetting}>이 설정 저장하기</MenuItem>
                             {/* <MenuItem icon={<EditIcon />} command="⌘O">
                                     Open File...
                                 </MenuItem> */}
@@ -283,7 +326,7 @@ export function SettingComponent() {
                             </Tooltip>
                             <NumberInput
                                 size="xs"
-                                maxW="65px"
+                                maxW="70px"
                                 max={2}
                                 min={0}
                                 step={0.01}
@@ -340,7 +383,7 @@ export function SettingComponent() {
                             </Tooltip>
                             <NumberInput
                                 size="xs"
-                                maxW="65px"
+                                maxW="70px"
                                 max={1}
                                 min={0}
                                 step={0.01}
@@ -392,7 +435,7 @@ export function SettingComponent() {
                             </Tooltip>
                             <NumberInput
                                 size="xs"
-                                maxW="65px"
+                                maxW="70px"
                                 max={2048}
                                 min={1}
                                 step={1}
@@ -447,7 +490,7 @@ export function SettingComponent() {
                             </Tooltip>
                             <NumberInput
                                 size="xs"
-                                maxW="65px"
+                                maxW="70px"
                                 max={2}
                                 min={-2}
                                 step={0.01}
@@ -502,7 +545,7 @@ export function SettingComponent() {
                             </Tooltip>
                             <NumberInput
                                 size="xs"
-                                maxW="65px"
+                                maxW="70px"
                                 max={2}
                                 min={-2}
                                 step={0.01}
@@ -547,9 +590,29 @@ export function SettingComponent() {
                 </div>
             </section>
             <section>
-                <Button sx={{ borderRadius: "none" }} colorScheme="teal" variant="solid" className="w-full">
-                    내 챗봇 게시하기
-                </Button>
+                <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} placement="top">
+                    <PopoverTrigger>
+                        <Button sx={{ borderRadius: "none" }} colorScheme="teal" variant="solid" className="w-full">
+                            내 챗봇 게시하기
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent p={5} pt={6}>
+                        <FocusLock persistentFocus={false}>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+
+                            <form>
+                                <Stack>
+                                    <FormLabel htmlFor={"title"}>title</FormLabel>
+                                    <Input id={"title"} type="text" />
+                                    <FormLabel htmlFor="description">description</FormLabel>
+                                    <Input id={"description"} type="text" />
+                                    <Button type="submit">등록하기</Button>
+                                </Stack>
+                            </form>
+                        </FocusLock>
+                    </PopoverContent>
+                </Popover>
             </section>
         </>
     );
