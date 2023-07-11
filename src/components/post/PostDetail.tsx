@@ -68,7 +68,7 @@ export default function PostDetail() {
                 {!loading && (
                     <>
                         {" "}
-                        <section className="pt-3">
+                        <section className="pb-5 border-b">
                             <h1 className="text-2xl font-bold mb-3">{post.title}</h1>
                             <p className="text-gray-400 text-xs">작성자: {post.user.name}</p>
                             <p className="text-gray-400 text-xs">작성일: {moment(post.postDate).format("YYYY-MM-DD")}</p>

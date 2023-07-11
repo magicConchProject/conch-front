@@ -25,10 +25,12 @@ export default function GroupCard({ name, joined, memberCount, manager }: Props)
                 <div>{joined ? <UnLockIcon /> : <LockIcon />}</div>
             </article> */}
             <Card
-                transition="box-shadow 0.3s"
+                transition="background 0.3s"
                 _hover={{
-                    boxShadow: "lg",
+                    background: "rgba(236, 236, 241, 255)",
                 }}
+                shadow={"none"}
+                background={"rgba(247, 247, 248, 255)"}
             >
                 <CardBody>
                     <Stack spacing="1">

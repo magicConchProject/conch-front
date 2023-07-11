@@ -107,7 +107,7 @@ export default function PostList() {
                 <div className="flex items-center gap-1">
                     {isManager && <TagSetting />}
                     <Link href={`/postadd/${group_id}`}>
-                        <Button size="sm" variant="ghost">
+                        <Button size="xs" variant="ghost">
                             <div className="text-teal-600">
                                 <PlusIcon />
                             </div>

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import SendIcon from "../icons/SendIcon";
 import SendIconDisable from "../icons/SendIcon_disable";
-import { Textarea } from "@chakra-ui/react";
+import { CircularProgress, Textarea } from "@chakra-ui/react";
 
 type Props = {
     Ask: (answer: string) => void;
@@ -75,7 +75,7 @@ export default function BottomSearchBox({ Ask, available }: Props) {
                 value={answer}
             />
             <button type="submit" className="px-4">
-                {available ? <SendIcon /> : <SendIconDisable />}
+                {available ? <SendIcon /> : <CircularProgress isIndeterminate color="teal" size="1rem" />}
             </button>
         </form>
     );

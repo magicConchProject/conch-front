@@ -68,7 +68,7 @@ export default function TagSetting() {
 
     return (
         <>
-            <Button onClick={() => setModalOpen(true)} size="sm" variant="ghost">
+            <Button onClick={() => setModalOpen(true)} size="xs" variant="ghost">
                 <p className="text-teal-600">태그 관리</p>
             </Button>
 
