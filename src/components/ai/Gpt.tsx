@@ -61,7 +61,8 @@ import {
 import MenuIcon from "../icons/MenuIcon";
 import React from "react";
 import { getChatGptSetting, updateSetting } from "@/api/chatSetting";
-import { Form } from "react-hook-form";
+import { Form, SubmitHandler, useForm } from "react-hook-form";
+import { addToStore } from "@/api/store";
 
 export default function Gpt() {
     //gpt 질문 이력 전역 state에 저장
@@ -91,7 +92,7 @@ export default function Gpt() {
     function Ask(ask: string) {
         setAvailable(false);
         const socket = io("http://localhost:8080");
-        // const socket = io('https://limhogyun.com'); // WebSocket 서버 주소로 변경
+        // const socket = io("https://limhogyun.com"); // WebSocket 서버 주소로 변경
         if (ask != "") {
             setGpt((state) => [...state, { role: "user", content: ask }]);
             setGpt((state) => [...state, { role: "assistant", content: "loading" }]);
@@ -198,6 +199,7 @@ export default function Gpt() {
         </div>
     );
 }
+
 export function SettingComponent() {
     //컨셉도 전역으로 설정
     const [concept, setConcept] = useRecoilState<string>(gptConcept);
@@ -234,6 +236,29 @@ export function SettingComponent() {
 
     //popover 창 띄우기 닫기
     const { onOpen, onClose, isOpen } = useDisclosure();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
+
+    // 스토어 저장 함수
+    const submit: SubmitHandler<any> = async (data) => {
+        const value = { concept, model: selectedModel, temperature, topP, maximumLength, frequencyPenalty, presencePenalty, ...data };
+        // console.log(value);
+        toast
+            .promise(addToStore(value), {
+                loading: "Loading",
+                success: () => `저장 성공`,
+                error: (err) => `${err.toString()}`,
+            })
+            .then(() => {
+                reset();
+                onClose();
+            });
+    };
 
     return (
         <>
@@ -590,7 +615,7 @@ export function SettingComponent() {
                 </div>
             </section>
             <section>
-                <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} placement="top">
+                <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose} placement="auto">
                     <PopoverTrigger>
                         <Button sx={{ borderRadius: "none" }} colorScheme="teal" variant="solid" className="w-full">
                             내 챗봇 게시하기
@@ -601,13 +626,15 @@ export function SettingComponent() {
                             <PopoverArrow />
                             <PopoverCloseButton />
 
-                            <form>
+                            <form onSubmit={handleSubmit(submit)}>
                                 <Stack>
                                     <FormLabel htmlFor={"title"}>title</FormLabel>
-                                    <Input id={"title"} type="text" />
-                                    <FormLabel htmlFor="description">description</FormLabel>
-                                    <Input id={"description"} type="text" />
-                                    <Button type="submit">등록하기</Button>
+                                    <Input required id={"title"} type="text" {...register("title", { required: true })} />
+                                    <FormLabel htmlFor="describtion">description</FormLabel>
+                                    <Input required id={"describtion"} type="text" {...register("describtion", { required: true })} />
+                                    <Button type="submit" colorScheme="teal">
+                                        등록하기
+                                    </Button>
                                 </Stack>
                             </form>
                         </FocusLock>
